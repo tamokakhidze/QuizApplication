@@ -24,6 +24,7 @@ extension LoginViewController {
         static let startButtoRadius: CGFloat = 12
         
         static let stackViewTopAnchor: CGFloat = 92
+        static let stackViewSpacing = 20
         
         static let inputRadius: CGFloat = 12
         static let inputBorder: CGFloat = 1

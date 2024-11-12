@@ -38,7 +38,7 @@ class LoginViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 26
+        stackView.spacing = Sizing.stackViewSpacing
         stackView.alignment = .center
         return stackView
     }()
@@ -50,7 +50,7 @@ class LoginViewController: UIViewController {
         input.textAlignment = .center
         let placeholderText = "შეიყვანეთ სახელი"
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 12)
+            .font: UIFont.systemFont(ofSize: FontSizes.xs)
         ]
         input.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: attributes)
         input.layer.borderWidth = Sizing.inputBorder
