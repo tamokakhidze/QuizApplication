@@ -28,7 +28,7 @@ extension LoginViewController {
             
             static let inputRadius: CGFloat = 12
             static let inputBorder: CGFloat = 1
-            static let inputSidePadding: CGFloat = 20
+            static let inputSidePadding: CGFloat = 54
             static let inputHeight: CGFloat = 44
         }
         
