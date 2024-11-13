@@ -82,7 +82,7 @@ class LoginViewController: UIViewController {
     
     private func configureStartButton() {
         startButton.configure(
-            title: "ქვიზის დაწყება",
+            title: Constants.Texts.startButtonTitle,
             width: Constants.Sizing.startButtonWidth,
             height: Constants.Sizing.startButtonHeight,
             radius: Constants.Sizing.startButtoRadius,
