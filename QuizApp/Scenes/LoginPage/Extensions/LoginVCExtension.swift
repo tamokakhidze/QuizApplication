@@ -9,30 +9,40 @@ import UIKit
 
 // MARK: - LoginViewController constants extension
 extension LoginViewController {
-    enum Sizing {
-        static let blueBackgroundTopAnchor: CGFloat = 0
-        static let blueBackgroundLeadingAnchor: CGFloat = 0
-        static let blueBackgroundTrailingAnchor: CGFloat = 0
-        static let blueBackgroundHeight: CGFloat = 433
+    enum Constants {
+        enum Sizing {
+            static let blueBackgroundTopAnchor: CGFloat = 0
+            static let blueBackgroundHeightMultiplier: CGFloat = 0.5
+            static let keyboardAdjustmentOffset: CGFloat = -150
+            
+            static let labelTopAnchor: CGFloat = 121
+            
+            static let illustrationTopAnchor: CGFloat = 34
+            
+            static let startButtonWidth: CGFloat = 141
+            static let startButtonHeight: CGFloat = 44
+            static let startButtoRadius: CGFloat = 12
+            
+            static let stackViewTopAnchor: CGFloat = 92
+            static let stackViewSpacing: CGFloat = 20
+            
+            static let inputRadius: CGFloat = 12
+            static let inputBorder: CGFloat = 1
+            static let inputSidePadding: CGFloat = 20
+            static let inputHeight: CGFloat = 44
+        }
         
-        static let labelTopAnchor: CGFloat = 121
+        enum Colors {
+            static let buttonColor = UIColor(hex: "#FFC44A")
+            static let borderColor = UIColor(hex: "#FFC44A")
+            static let neutralWhite: UIColor = .white
+            static let neutralGrey = UIColor(hex: "#B3B3B3")
+        }
         
-        static let illustrationTopAnchor: CGFloat = 34
-        
-        static let startButtonWidth: CGFloat = 141
-        static let startButtonHeight: CGFloat = 44
-        static let startButtoRadius: CGFloat = 12
-        
-        static let stackViewTopAnchor: CGFloat = 92
-        static let stackViewSpacing = 20
-        
-        static let inputRadius: CGFloat = 12
-        static let inputBorder: CGFloat = 1
-        static let inputWidth: CGFloat = 268
-        static let inputHeight: CGFloat = 44
-    }
-    
-    enum Colors {
-        static let border: UIColor = .yellowPrimary
+        enum Texts {
+            static let title = "ჩემი პირველი ქვიზი"
+            static let placeholderText = "შეიყვანეთ სახელი"
+            static let startButtonTitle = "ქვიზის დაწყება"
+        }
     }
 }

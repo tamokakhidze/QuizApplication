@@ -11,11 +11,9 @@ import UIKit
 class YellowRoundedButton: UIButton {
     
     // MARK: - Init
-    init(title: String, width: CGFloat, height: CGFloat, radius: CGFloat, fontSize: CGFloat) {
+    init() {
         super.init(frame: .zero)
-        configureTitle(title, fontSize: fontSize)
-        setConstraints(width: width, height: height)
-        configureAppearance(radius: radius)
+        initialize()
     }
     
     required init?(coder: NSCoder) {
@@ -23,24 +21,23 @@ class YellowRoundedButton: UIButton {
     }
     
     // MARK: - Configurations
-    private func configureTitle(_ title: String, fontSize: CGFloat) {
-        self.setTitle(title, for: .normal)
-        self.titleLabel?.font = .systemFont(ofSize: fontSize , weight: .bold)
-        self.setTitleColor(.white, for: .normal)
-    }
-    
-    private func configureAppearance(radius: CGFloat) {
-        self.translatesAutoresizingMaskIntoConstraints = false
+    private func initialize() {
         self.backgroundColor = .yellowPrimary
-        self.layer.cornerRadius = radius
         self.clipsToBounds = true
         self.contentHorizontalAlignment = .center
         self.contentVerticalAlignment = .center
+        self.setTitleColor(.white, for: .normal)
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    func configure(title: String, width: CGFloat, height: CGFloat, radius: CGFloat, fontSize: CGFloat) {
+        self.setTitle(title, for: .normal)
+        self.titleLabel?.font = .systemFont(ofSize: fontSize , weight: .bold)
+        self.layer.cornerRadius = radius
+        setConstraints(width: width, height: height)
     }
     
     private func setConstraints(width: CGFloat, height: CGFloat) {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             self.heightAnchor.constraint(equalToConstant: height),
             self.widthAnchor.constraint(equalToConstant: width)

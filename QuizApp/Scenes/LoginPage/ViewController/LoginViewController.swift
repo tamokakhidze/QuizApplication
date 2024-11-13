@@ -21,9 +21,9 @@ class LoginViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "ჩემი პირველი ქვიზი"
+        label.text = Constants.Texts.title
         label.font = .systemFont(ofSize: FontSizes.xl, weight: .black)
-        label.textColor = .white
+        label.textColor = Constants.Colors.neutralWhite
         return label
     }()
     
@@ -38,34 +38,27 @@ class LoginViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = Sizing.stackViewSpacing
+        stackView.spacing = Constants.Sizing.stackViewSpacing
         stackView.alignment = .center
         return stackView
     }()
     
     private let input: UITextField = {
         let input = UITextField()
-        input.isUserInteractionEnabled = true
-        input.textColor = .neutralGrey
+        input.textColor = Constants.Colors.neutralGrey
         input.textAlignment = .center
-        let placeholderText = "შეიყვანეთ სახელი"
+        let placeholderText = Constants.Texts.placeholderText
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: FontSizes.xs)
         ]
         input.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: attributes)
-        input.layer.borderWidth = Sizing.inputBorder
-        input.layer.borderColor = Colors.border.cgColor
-        input.layer.cornerRadius = Sizing.inputRadius
+        input.layer.borderWidth = Constants.Sizing.inputBorder
+        input.layer.borderColor = Constants.Colors.buttonColor.cgColor
+        input.layer.cornerRadius = Constants.Sizing.inputRadius
         return input
     }()
     
-    private let startButton = YellowRoundedButton(
-        title: "ქვიზის დაწყება",
-        width: Sizing.startButtonWidth,
-        height: Sizing.startButtonHeight,
-        radius: Sizing.startButtoRadius,
-        fontSize: FontSizes.xs
-    )
+    private let startButton = YellowRoundedButton()
     
     // MARK: - Constraints
     private var blueBackgroundTopConstraint: NSLayoutConstraint!
@@ -73,12 +66,28 @@ class LoginViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        configureUI()
         setupKeyboardObservers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         removeKeyboardObservers()
+    }
+    
+    // MARK: - Configuration Methods
+    private func configureUI() {
+        configureStartButton()
+        setupUI()
+    }
+    
+    private func configureStartButton() {
+        startButton.configure(
+            title: "ქვიზის დაწყება",
+            width: Constants.Sizing.startButtonWidth,
+            height: Constants.Sizing.startButtonHeight,
+            radius: Constants.Sizing.startButtoRadius,
+            fontSize: FontSizes.xs
+        )
     }
     
     // MARK: - UI Setup
@@ -89,35 +98,69 @@ class LoginViewController: UIViewController {
     }
     
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = Constants.Colors.neutralWhite
     }
     
     private func setupViewHierarchy() {
-        loginStackView.addArrangedSubviews(input, startButton)
-        view.addSubviews(blueBackground, titleLabel, illustration, loginStackView)
+        loginStackView.addArrangedSubviews(
+            input,
+            startButton
+        )
+        view.addSubviews(
+            blueBackground,
+            titleLabel,
+            illustration,
+            loginStackView
+        )
         view.bringSubviewToFront(titleLabel)
     }
     
+    // MARK: - UI Constraints
     private func setConstraints() {
-        blueBackgroundTopConstraint = blueBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: Sizing.blueBackgroundTopAnchor)
+        setupBackgroundConstraints()
+        setupTitleConstraints()
+        setupIllustrationConstraints()
+        setupStackViewConstraints()
+        setupInputConstraints()
+    }
+    
+    private func setupBackgroundConstraints() {
+        blueBackgroundTopConstraint = blueBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.Sizing.blueBackgroundTopAnchor)
         
         NSLayoutConstraint.activate([
             blueBackgroundTopConstraint,
-            blueBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Sizing.blueBackgroundLeadingAnchor),
-            blueBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Sizing.blueBackgroundTrailingAnchor),
-            blueBackground.heightAnchor.constraint(equalToConstant: Sizing.blueBackgroundHeight),
-            
-            titleLabel.topAnchor.constraint(equalTo: blueBackground.topAnchor, constant: Sizing.labelTopAnchor),
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            illustration.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Sizing.illustrationTopAnchor),
-            illustration.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            loginStackView.topAnchor.constraint(equalTo: blueBackground.bottomAnchor, constant: Sizing.stackViewTopAnchor),
-            loginStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            input.widthAnchor.constraint(equalToConstant: Sizing.inputWidth),
-            input.heightAnchor.constraint(equalToConstant: Sizing.inputHeight)
+            blueBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            blueBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            blueBackground.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: Constants.Sizing.blueBackgroundHeightMultiplier)
+        ])
+    }
+    
+    private func setupTitleConstraints() {
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: blueBackground.topAnchor, constant: Constants.Sizing.labelTopAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    private func setupIllustrationConstraints() {
+        NSLayoutConstraint.activate([
+            illustration.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.Sizing.illustrationTopAnchor),
+            illustration.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    private func setupStackViewConstraints() {
+        NSLayoutConstraint.activate([
+            loginStackView.topAnchor.constraint(equalTo: blueBackground.bottomAnchor, constant: Constants.Sizing.stackViewTopAnchor),
+            loginStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    private func setupInputConstraints() {
+        NSLayoutConstraint.activate([
+            input.heightAnchor.constraint(equalToConstant: Constants.Sizing.inputHeight),
+            input.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.Sizing.inputSidePadding),
+            input.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.Sizing.inputSidePadding)
         ])
     }
     
@@ -134,14 +177,14 @@ class LoginViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func keyboardWillShow() {
-        blueBackgroundTopConstraint.constant = -150
+        blueBackgroundTopConstraint.constant = Constants.Sizing.keyboardAdjustmentOffset
         UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
         }
     }
     
     @objc private func keyboardWillHide(notification: NSNotification) {
-        blueBackgroundTopConstraint.constant = Sizing.stackViewTopAnchor
+        blueBackgroundTopConstraint.constant = Constants.Sizing.blueBackgroundTopAnchor
         UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
         }
