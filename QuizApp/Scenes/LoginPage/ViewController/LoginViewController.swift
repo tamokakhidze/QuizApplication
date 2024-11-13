@@ -58,7 +58,17 @@ class LoginViewController: UIViewController {
         return input
     }()
     
-    private let startButton = YellowRoundedButton()
+    private let startButton: YellowRoundedButton = {
+        let button = YellowRoundedButton()
+        button.configure(
+            title: Constants.Texts.startButtonTitle,
+            width: Constants.Sizing.startButtonWidth,
+            height: Constants.Sizing.startButtonHeight,
+            radius: Constants.Sizing.startButtoRadius,
+            fontSize: FontSizes.xs
+        )
+        return button
+    }()
     
     // MARK: - Constraints
     private var blueBackgroundTopConstraint: NSLayoutConstraint!
@@ -66,28 +76,12 @@ class LoginViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+        setupUI()
         setupKeyboardObservers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         removeKeyboardObservers()
-    }
-    
-    // MARK: - Configuration Methods
-    private func configureUI() {
-        configureStartButton()
-        setupUI()
-    }
-    
-    private func configureStartButton() {
-        startButton.configure(
-            title: Constants.Texts.startButtonTitle,
-            width: Constants.Sizing.startButtonWidth,
-            height: Constants.Sizing.startButtonHeight,
-            radius: Constants.Sizing.startButtoRadius,
-            fontSize: FontSizes.xs
-        )
     }
     
     // MARK: - UI Setup
