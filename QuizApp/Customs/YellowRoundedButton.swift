@@ -30,17 +30,16 @@ class YellowRoundedButton: UIButton {
         self.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func configure(title: String, width: CGFloat, height: CGFloat, radius: CGFloat, fontSize: CGFloat) {
+    func configure(title: String, height: CGFloat, radius: CGFloat, fontSize: CGFloat) {
         self.setTitle(title, for: .normal)
         self.titleLabel?.font = .systemFont(ofSize: fontSize , weight: .bold)
         self.layer.cornerRadius = radius
-        setConstraints(width: width, height: height)
+        setConstraints(height: height)
     }
     
-    private func setConstraints(width: CGFloat, height: CGFloat) {
+    private func setConstraints(height: CGFloat) {
         NSLayoutConstraint.activate([
-            self.heightAnchor.constraint(equalToConstant: height),
-            self.widthAnchor.constraint(equalToConstant: width)
+            self.heightAnchor.constraint(equalToConstant: height)
         ])
     }
 }

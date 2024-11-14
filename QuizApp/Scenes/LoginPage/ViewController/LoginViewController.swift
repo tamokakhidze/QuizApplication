@@ -62,7 +62,6 @@ class LoginViewController: UIViewController {
         let button = YellowRoundedButton()
         button.configure(
             title: Constants.Texts.startButtonTitle,
-            width: Constants.Sizing.startButtonWidth,
             height: Constants.Sizing.startButtonHeight,
             radius: Constants.Sizing.startButtoRadius,
             fontSize: FontSizes.xs
@@ -93,6 +92,7 @@ class LoginViewController: UIViewController {
     
     private func setupView() {
         view.backgroundColor = Constants.Colors.neutralWhite
+        addTapGestureToDismissKeyboard()
     }
     
     private func setupViewHierarchy() {
@@ -116,6 +116,7 @@ class LoginViewController: UIViewController {
         setupIllustrationConstraints()
         setupStackViewConstraints()
         setupInputConstraints()
+        setupStartButtonConstraints()
     }
     
     private func setupBackgroundConstraints() {
@@ -145,8 +146,7 @@ class LoginViewController: UIViewController {
     
     private func setupStackViewConstraints() {
         NSLayoutConstraint.activate([
-            loginStackView.topAnchor.constraint(equalTo: blueBackground.bottomAnchor, constant: Constants.Sizing.stackViewTopAnchor),
-            loginStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            loginStackView.topAnchor.constraint(equalTo: blueBackground.bottomAnchor, constant: Constants.Sizing.stackViewTopAnchor)
         ])
     }
     
@@ -155,6 +155,13 @@ class LoginViewController: UIViewController {
             input.heightAnchor.constraint(equalToConstant: Constants.Sizing.inputHeight),
             input.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.Sizing.inputSidePadding),
             input.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.Sizing.inputSidePadding)
+        ])
+    }
+    
+    private func setupStartButtonConstraints() {
+        NSLayoutConstraint.activate([
+            startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.Sizing.startButtonSidePadding),
+            startButton.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -Constants.Sizing.startButtonSidePadding),
         ])
     }
     
@@ -167,6 +174,12 @@ class LoginViewController: UIViewController {
     private func removeKeyboardObservers() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    // MARK: - Add Tap Gesture
+    private func addTapGestureToDismissKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
     
     // MARK: - Actions
@@ -182,6 +195,10 @@ class LoginViewController: UIViewController {
         UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
         }
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
     
 }
