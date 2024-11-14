@@ -19,6 +19,7 @@ extension LoginViewController {
             
             static let illustrationTopAnchor: CGFloat = 141
             static let illustrationPadding: CGFloat = 73
+            static let illustrationBottomAnchor: CGFloat = -23
             static let startButtonHeight: CGFloat = 44
             static let startButtoRadius: CGFloat = 12
             static let startButtonSidePadding: CGFloat = 117
