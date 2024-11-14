@@ -140,7 +140,8 @@ class LoginViewController: UIViewController {
     private func setupIllustrationConstraints() {
         NSLayoutConstraint.activate([
             illustration.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.Sizing.illustrationTopAnchor),
-            illustration.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            illustration.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.Sizing.illustrationPadding),
+            illustration.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.Sizing.illustrationPadding)
         ])
     }
     
