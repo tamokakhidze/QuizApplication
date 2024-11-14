@@ -93,7 +93,9 @@ class LoginViewController: UIViewController {
     
     private func setupView() {
         view.backgroundColor = Constants.Colors.neutralWhite
+        navigationController?.isNavigationBarHidden = true
         addTapGestureToDismissKeyboard()
+        
     }
     
     private func setupViewHierarchy() {
@@ -121,7 +123,7 @@ class LoginViewController: UIViewController {
     }
     
     private func setupBackgroundConstraints() {
-        blueBackgroundTopConstraint = blueBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.Sizing.blueBackgroundTopAnchor)
+        blueBackgroundTopConstraint = blueBackground.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.Sizing.blueBackgroundTopAnchor)
         
         NSLayoutConstraint.activate([
             blueBackgroundTopConstraint,
