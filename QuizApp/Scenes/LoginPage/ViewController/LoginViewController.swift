@@ -31,6 +31,7 @@ class LoginViewController: UIViewController {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = .loginPageIllustration
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -139,9 +140,10 @@ class LoginViewController: UIViewController {
     
     private func setupIllustrationConstraints() {
         NSLayoutConstraint.activate([
-            illustration.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.Sizing.illustrationTopAnchor),
+            illustration.topAnchor.constraint(equalTo: blueBackground.topAnchor, constant: Constants.Sizing.illustrationTopAnchor),
             illustration.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.Sizing.illustrationPadding),
-            illustration.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.Sizing.illustrationPadding)
+            illustration.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.Sizing.illustrationPadding),
+            illustration.bottomAnchor.constraint(equalTo: blueBackground.bottomAnchor, constant: -23)
         ])
     }
     
