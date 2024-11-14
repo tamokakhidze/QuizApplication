@@ -22,6 +22,10 @@ class YellowRoundedButton: UIButton {
     
     // MARK: - Configurations
     private func initialize() {
+        setUp()
+    }
+    
+    private func setUp() {
         self.backgroundColor = .yellowPrimary
         self.clipsToBounds = true
         self.contentHorizontalAlignment = .center
@@ -30,7 +34,12 @@ class YellowRoundedButton: UIButton {
         self.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func configure(title: String, height: CGFloat, radius: CGFloat, fontSize: CGFloat) {
+    func configure(
+        title: String,
+        height: CGFloat,
+        radius: CGFloat,
+        fontSize: CGFloat
+    ) {
         self.setTitle(title, for: .normal)
         self.titleLabel?.font = .systemFont(ofSize: fontSize , weight: .bold)
         self.layer.cornerRadius = radius
