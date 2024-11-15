@@ -47,20 +47,11 @@ final class SubjectCell: UITableViewCell {
         return stackView
     }()
     
-    private let leftStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = Constants.Sizing.leftStackViewSpacing
-        stackView.backgroundColor = .blue
-        return stackView
-    }()
-    
     private let textsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = Constants.Sizing.textsStackView
+        stackView.spacing = Constants.Sizing.textsStackViewSpacing
         stackView.alignment = .leading
         return stackView
     }()
@@ -82,22 +73,24 @@ final class SubjectCell: UITableViewCell {
         setAppearance()
         setupHierarchy()
         setConstraints()
+        mainStackView.setCustomSpacing(27, after: textsStackView)
     }
     
     private func setAppearance() {
         contentView.layer.cornerRadius = Constants.Sizing.cornerRadius
         contentView.backgroundColor = CustomColors.neutralLighterGrey
         contentView.clipsToBounds = true
+        mainStackView.setCustomSpacing(27, after: textsStackView)
     }
     
     private func setupHierarchy() {
         sendSubviewToBack(contentView)
         addSubviews(mainStackView)
         textsStackView.addArrangedSubviews(titleLabel, descriptionLabel)
-        leftStackView.addArrangedSubviews(subjectImage, textsStackView)
-        mainStackView.addArrangedSubviews(leftStackView, nextButton)
+        mainStackView.addArrangedSubviews(subjectImage, textsStackView, nextButton)
     }
     
+    // MARK: - Constraints
     private func setConstraints() {
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.Sizing.mainStackViewVerticalPadding),
@@ -105,15 +98,14 @@ final class SubjectCell: UITableViewCell {
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.Sizing.mainStackViewVerticalPadding),
             mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.Sizing.mainStackViewSidePadding),
             
-            leftStackView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor),
             
-            textsStackView.topAnchor.constraint(equalTo: leftStackView.topAnchor, constant: Constants.Sizing.textsStackViewVerticalPadding),
-            textsStackView.bottomAnchor.constraint(equalTo: leftStackView.bottomAnchor, constant: -Constants.Sizing.textsStackViewVerticalPadding),
+            textsStackView.topAnchor.constraint(equalTo: mainStackView.topAnchor, constant: Constants.Sizing.textsStackViewVerticalPadding),
+            textsStackView.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: -Constants.Sizing.textsStackViewVerticalPadding),
             textsStackView.leadingAnchor.constraint(equalTo: subjectImage.trailingAnchor, constant: Constants.Sizing.textsStackViewLeadingAnchor),
-            textsStackView.trailingAnchor.constraint(equalTo: leftStackView.trailingAnchor),
+            textsStackView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: Constants.Sizing.textsStackViewTrailingAnchor),
             
-            nextButton.topAnchor.constraint(equalTo: mainStackView.topAnchor, constant: 10),
-            nextButton.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: -10)
+            nextButton.topAnchor.constraint(equalTo: mainStackView.topAnchor, constant: Constants.Sizing.nextButtonPadding),
+            nextButton.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: -Constants.Sizing.nextButtonPadding)
         ])
     }
     
@@ -124,6 +116,7 @@ final class SubjectCell: UITableViewCell {
     }
 }
 
+// MARK: - Constants Extension
 extension SubjectCell {
     enum Constants {
         enum Texts {
@@ -133,15 +126,17 @@ extension SubjectCell {
         enum Sizing {
             static let cornerRadius: CGFloat = 26
 
-            static let mainStackViewSpacing: CGFloat = 27
-            static let leftStackViewSpacing: CGFloat = 18
-            static let textsStackView: CGFloat = 0
+            static let mainStackViewSpacing: CGFloat = 18
+            static let textsStackViewSpacing: CGFloat = 0
             
             static let mainStackViewSidePadding: CGFloat = 29.5
             static let mainStackViewVerticalPadding: CGFloat = 22
             
             static let textsStackViewVerticalPadding: CGFloat = 8
             static let textsStackViewLeadingAnchor: CGFloat = 18
+            static let textsStackViewTrailingAnchor: CGFloat = -71
+            
+            static let nextButtonPadding: CGFloat = 10
             
         }
     }

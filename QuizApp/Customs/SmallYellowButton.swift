@@ -9,15 +9,7 @@ import UIKit
 
 class SmallYellowButton: UIButton {
     
-//    let imageView: UIImageView = {
-//        let imageView = UIImageView()
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
-//        imageView.tintColor = CustomColors.neutralWhite
-//        imageView.clipsToBounds = true
-//        return imageView
-//    }()
-    
-    // MARK: - Init
+    // MARK: - Lifecycle
     init() {
         super.init(frame: .zero)
         initialize()
@@ -27,43 +19,27 @@ class SmallYellowButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Configurations
-    private func initialize() {
-        setUp()
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.cornerRadius = self.bounds.height / 2
     }
     
-    private func setUp() {
+    // MARK: - Configurations
+    private func initialize() {
         setupView()
-        setupHierarchy()
     }
     
     private func setupView() {
-        self.backgroundColor = .yellowPrimary
+        self.backgroundColor = CustomColors.yellowPrimary
         self.clipsToBounds = true
         self.contentHorizontalAlignment = .center
         self.contentVerticalAlignment = .center
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.setImage(.nextButton, for: .normal)
+        self.setImage(.nextButton.withRenderingMode(.alwaysOriginal), for: .normal)
     }
     
-    func configure(
-        image: UIImage
-    ) {
-        let imageToSet = image.withRenderingMode(.alwaysTemplate)
-        self.setImage(imageToSet, for: .normal)
-        //self.layer.cornerRadius = self.heightAnchor / 2 //whatever the height will be for different screens
-        setConstraints()
-    }
-    
-    private func setupHierarchy() {
-        //self.addSubview(imageView)
-    }
-    
-    private func setConstraints() {
-//        NSLayoutConstraint.activate([
-//            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-//            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-//        ])
+    func configure(image: UIImage) {
+        self.setImage(image, for: .normal)
     }
     
 }

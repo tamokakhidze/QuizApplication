@@ -19,11 +19,19 @@ class HomeViewController: UIViewController {
         return stackView
     }()
     
+    private let labelForTable: UILabel = {
+        let label = UILabel()
+        label.text = Constants.Texts.tableViewHeaderLabelText
+        label.font = .systemFont(ofSize: FontSizes.med, weight: .medium)
+        return label
+    }()
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.rowHeight = Constants.Sizing.tableViewRowHeight
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(SubjectCell.self, forCellReuseIdentifier: SubjectCell.identifier)
+        tableView.separatorColor = .clear
         return tableView
     }()
     
@@ -49,6 +57,7 @@ class HomeViewController: UIViewController {
     // MARK: - UI Setup
     private func setupUI() {
         setupView()
+        setupTableView()
         setupViewHierarchy()
         setConstraints()
     }
@@ -56,6 +65,16 @@ class HomeViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = CustomColors.neutralWhite
         navigationController?.isNavigationBarHidden = true
+    }
+    
+    private func setupTableView() {
+        labelForTable.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: tableView.frame.width,
+            height: Constants.Sizing.labelForTableHeight
+        )
+        tableView.tableHeaderView = labelForTable
     }
     
     private func setupViewHierarchy() {
@@ -115,6 +134,7 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         UIView()
     }
+    
 }
 
 // MARK: - Constants Extension
@@ -124,10 +144,17 @@ extension HomeViewController {
             static let tableViewRowHeight: CGFloat = 108
             static let heightForFooterInSection: CGFloat = 20
             static let tableViewTopAnchor: CGFloat = 190
-            static let mainStackViewSpacing: CGFloat = 32
+            
+            static let mainStackViewSpacing: CGFloat = 20
             static let mainStackViewTopAnchor: CGFloat = 8
             static let mainStackViewSidePadding: CGFloat = 16
             static let mainStackViewBottomAnchor: CGFloat = -81
+            
+            static let labelForTableHeight: CGFloat = 60
+        }
+        
+        enum Texts {
+            static let tableViewHeaderLabelText = "აირჩიე საგანი"
         }
     }
 }
