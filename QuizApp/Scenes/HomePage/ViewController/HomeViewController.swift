@@ -224,15 +224,19 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SubjectCell.identifier) as? SubjectCell
-        cell?.backgroundColor = .clear
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: SubjectCell.identifier
+        ) as? SubjectCell else {
+            return UITableViewCell()
+        }
+        cell.backgroundColor = .clear
         let image = viewModel.subjectImages[indexPath.section]
-        cell?.configureCell(
+        cell.configureCell(
             image: (UIImage(named: image) ?? UIImage(named: "geographyImage"))!,
             title: "გეოგრაფია"
         )
         
-        return cell!
+        return cell
     }
     
 }
