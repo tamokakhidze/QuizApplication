@@ -13,4 +13,6 @@ struct CustomColors {
     static let neutralWhite: UIColor = .white
     static let neutralLighterGrey = UIColor(hex: "F6F6F6")
     static let yellowPrimary = UIColor(hex: "#FFC44A")
+    static let blueSecondaryDefault = UIColor(hex: "#537FE7")
+    static let blueSecondaryLighter = UIColor(hex: "#6B91EA")
 }

@@ -20,7 +20,10 @@ final class SubjectCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = CustomColors.neutralDarkGrey
-        label.font = .systemFont(ofSize: FontSizes.med, weight: .bold)
+        label.font = .systemFont(
+            ofSize: FontSizes.med,
+            weight: .bold
+        )
         return label
     }()
     
@@ -29,7 +32,10 @@ final class SubjectCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = Constants.Texts.descriptionLabelText
         label.textColor = CustomColors.neutralGrey
-        label.font = .systemFont(ofSize: FontSizes.xs, weight: .bold)
+        label.font = .systemFont(
+            ofSize: FontSizes.xs,
+            weight: .bold
+        )
         return label
     }()
     
@@ -44,6 +50,7 @@ final class SubjectCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = Constants.Sizing.mainStackViewSpacing
+        stackView.alignment = .center
         return stackView
     }()
     
@@ -80,33 +87,66 @@ final class SubjectCell: UITableViewCell {
         contentView.layer.cornerRadius = Constants.Sizing.cornerRadius
         contentView.backgroundColor = CustomColors.neutralLighterGrey
         contentView.clipsToBounds = true
-        mainStackView.setCustomSpacing(27, after: textsStackView)
+        mainStackView.setCustomSpacing(
+            27,
+            after: textsStackView
+        )
     }
     
     private func setupHierarchy() {
         sendSubviewToBack(contentView)
         addSubviews(mainStackView)
-        textsStackView.addArrangedSubviews(titleLabel, descriptionLabel)
-        mainStackView.addArrangedSubviews(subjectImage, textsStackView, nextButton)
+        textsStackView.addArrangedSubviews(
+            titleLabel,
+            descriptionLabel
+        )
+        mainStackView.addArrangedSubviews(
+            subjectImage,
+            textsStackView,
+            nextButton
+        )
     }
     
     // MARK: - Constraints
     private func setConstraints() {
-        NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.Sizing.mainStackViewVerticalPadding),
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.Sizing.mainStackViewSidePadding),
-            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.Sizing.mainStackViewVerticalPadding),
-            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.Sizing.mainStackViewSidePadding),
-            
-            
-            textsStackView.topAnchor.constraint(equalTo: mainStackView.topAnchor, constant: Constants.Sizing.textsStackViewVerticalPadding),
-            textsStackView.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: -Constants.Sizing.textsStackViewVerticalPadding),
-            textsStackView.leadingAnchor.constraint(equalTo: subjectImage.trailingAnchor, constant: Constants.Sizing.textsStackViewLeadingAnchor),
-            textsStackView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: Constants.Sizing.textsStackViewTrailingAnchor),
-            
-            nextButton.topAnchor.constraint(equalTo: mainStackView.topAnchor, constant: Constants.Sizing.nextButtonPadding),
-            nextButton.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: -Constants.Sizing.nextButtonPadding)
-        ])
+        NSLayoutConstraint.activate(
+            [
+                mainStackView.topAnchor.constraint(
+                    equalTo: topAnchor,
+                    constant: Constants.Sizing.mainStackViewVerticalPadding
+                ),
+                mainStackView.leadingAnchor.constraint(
+                    equalTo: leadingAnchor,
+                    constant: Constants.Sizing.mainStackViewSidePadding
+                ),
+                mainStackView.bottomAnchor.constraint(
+                    equalTo: bottomAnchor,
+                    constant: -Constants.Sizing.mainStackViewVerticalPadding
+                ),
+                mainStackView.trailingAnchor.constraint(
+                    equalTo: trailingAnchor,
+                    constant: -Constants.Sizing.mainStackViewSidePadding
+                ),
+                
+                textsStackView.leadingAnchor.constraint(
+                    equalTo: subjectImage.trailingAnchor,
+                    constant: Constants.Sizing.textsStackViewLeadingAnchor
+                ),
+                textsStackView.trailingAnchor.constraint(
+                    equalTo: mainStackView.trailingAnchor,
+                    constant: Constants.Sizing.textsStackViewTrailingAnchor
+                ),
+                
+                nextButton.topAnchor.constraint(
+                    equalTo: mainStackView.topAnchor,
+                    constant: Constants.Sizing.nextButtonPadding
+                ),
+                nextButton.bottomAnchor.constraint(
+                    equalTo: mainStackView.bottomAnchor,
+                    constant: -Constants.Sizing.nextButtonPadding
+                )
+            ]
+        )
     }
     
     //MARK: - Cell Configuration

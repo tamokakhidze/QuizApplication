@@ -19,10 +19,29 @@ class HomeViewController: UIViewController {
         return stackView
     }()
     
+    private let greetingLabel: UILabel = {
+        let label = UILabel()
+        label.text = Constants.Texts.greeting
+        label.textColor = CustomColors.yellowPrimary
+        label.font = .systemFont(
+            ofSize: FontSizes.med,
+            weight: .bold
+        )
+        return label
+    }()
+    
+    private let scoreSection: ColorfulBackgroundView = {
+        let view = ColorfulBackgroundView()
+        return view
+    }()
+    
     private let labelForTable: UILabel = {
         let label = UILabel()
         label.text = Constants.Texts.tableViewHeaderLabelText
-        label.font = .systemFont(ofSize: FontSizes.med, weight: .medium)
+        label.font = .systemFont(
+            ofSize: FontSizes.med,
+            weight: .medium
+        )
         return label
     }()
     
@@ -30,9 +49,28 @@ class HomeViewController: UIViewController {
         let tableView = UITableView()
         tableView.rowHeight = Constants.Sizing.tableViewRowHeight
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(SubjectCell.self, forCellReuseIdentifier: SubjectCell.identifier)
+        tableView.register(
+            SubjectCell.self,
+            forCellReuseIdentifier: SubjectCell.identifier
+        )
         tableView.separatorColor = .clear
         return tableView
+    }()
+    
+    private let separatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = CustomColors.neutralLighterGrey
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var logoutButton: SmallYellowButton = {
+        let button = SmallYellowButton()
+        button.setImage(
+            .logoutButton,
+            for: .normal
+        )
+        return button
     }()
     
     // MARK: - Properties
@@ -51,6 +89,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        configureGpa()
         setDelegates()
     }
     
@@ -78,23 +117,80 @@ class HomeViewController: UIViewController {
     }
     
     private func setupViewHierarchy() {
-        view.addSubviews(mainStackView)
-        mainStackView.addArrangedSubviews(tableView)
+        view.addSubviews(mainStackView, separatorView)
+        mainStackView.addArrangedSubviews(
+            greetingLabel,
+            scoreSection,
+            tableView
+        )
         
     }
     
     // MARK: - Constraints
     private func setConstraints() {
         configureMainStackViewConstraints()
+        configureSeparatorConstraints()
+        configureLogoutButtonConstraints()
     }
     
     private func configureMainStackViewConstraints() {
-        NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.Sizing.mainStackViewTopAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.Sizing.mainStackViewSidePadding),
-            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.Sizing.mainStackViewSidePadding),
-            mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.Sizing.mainStackViewBottomAnchor)
-        ])
+        NSLayoutConstraint.activate(
+            [
+                mainStackView.topAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.topAnchor,
+                    constant: Constants.Sizing.mainStackViewTopAnchor
+                ),
+                mainStackView.leadingAnchor.constraint(
+                    equalTo: view.leadingAnchor,
+                    constant: Constants.Sizing.mainStackViewSidePadding
+                ),
+                mainStackView.trailingAnchor.constraint(
+                    equalTo: view.trailingAnchor,
+                    constant: -Constants.Sizing.mainStackViewSidePadding
+                ),
+                mainStackView.bottomAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                    constant: Constants.Sizing.mainStackViewBottomAnchor
+                )
+            ]
+        )
+    }
+    
+    private func configureSeparatorConstraints() {
+        NSLayoutConstraint.activate(
+            [
+                separatorView.heightAnchor.constraint(
+                    equalToConstant: Constants.Sizing.separatorHeight
+                ),
+                separatorView.leadingAnchor.constraint(
+                    equalTo: view.leadingAnchor
+                ),
+                separatorView.trailingAnchor.constraint(
+                    equalTo: view.trailingAnchor
+                ),
+                separatorView.bottomAnchor.constraint(
+                    equalTo: view.bottomAnchor,
+                    constant: Constants.Sizing.separatorBottomAnchor
+                )
+            ]
+        )
+    }
+    
+    private func configureLogoutButtonConstraints() {
+        NSLayoutConstraint.activate(
+            [
+                logoutButton.heightAnchor.constraint(
+                    equalToConstant: Constants.Sizing.logoutButtonDimension
+                ),
+                logoutButton.widthAnchor.constraint(
+                    equalToConstant: Constants.Sizing.logoutButtonDimension
+                )
+            ]
+        )
+    }
+    // MARK: - Configurations
+    private func configureGpa() {
+        scoreSection.configure(gpa: viewModel.gpa)
     }
     
     // MARK: - Set Delegates
@@ -156,10 +252,18 @@ extension HomeViewController {
             static let labelForTableHeight: CGFloat = 60
             
             static let numberOfRowsInSection = 1
+            
+            static let scoreSectionHeight: CGFloat = 75
+            
+            static let separatorBottomAnchor: CGFloat = -65
+            static let separatorHeight: CGFloat = 1
+            
+            static let logoutButtonDimension: CGFloat = 42
         }
         
         enum Texts {
             static let tableViewHeaderLabelText = "აირჩიე საგანი"
+            static let greeting = "გამარჯობა, ირაკლი"
         }
         
         enum TableView {
