@@ -9,5 +9,6 @@ import Foundation
 
 class HomeViewModel {
     
+    // MARK: - Properties
     let subjectImages: [String] = ["geographyImage", "programmingImage", "historyImage", "atomImage" ]
 }

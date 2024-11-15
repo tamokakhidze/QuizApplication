@@ -69,8 +69,8 @@ class HomeViewController: UIViewController {
     
     private func setupTableView() {
         labelForTable.frame = CGRect(
-            x: 0,
-            y: 0,
+            x: .zero,
+            y: .zero,
             width: tableView.frame.width,
             height: Constants.Sizing.labelForTableHeight
         )
@@ -107,18 +107,21 @@ class HomeViewController: UIViewController {
 // MARK: - UITableViewDataSource
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        Constants.TableView.numberOfRowsInSection
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        4
+        Constants.TableView.numberOfSections
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SubjectCell.identifier) as? SubjectCell
         cell?.backgroundColor = .clear
         let image = viewModel.subjectImages[indexPath.section]
-        cell?.configureCell(image: (UIImage(named: image) ?? UIImage(named: "geographyImage"))!, title: "გეოგრაფია")
+        cell?.configureCell(
+            image: (UIImage(named: image) ?? UIImage(named: "geographyImage"))!,
+            title: "გეოგრაფია"
+        )
         
         return cell!
     }
@@ -151,10 +154,17 @@ extension HomeViewController {
             static let mainStackViewBottomAnchor: CGFloat = -81
             
             static let labelForTableHeight: CGFloat = 60
+            
+            static let numberOfRowsInSection = 1
         }
         
         enum Texts {
             static let tableViewHeaderLabelText = "აირჩიე საგანი"
+        }
+        
+        enum TableView {
+            static let numberOfRowsInSection = 1
+            static let numberOfSections = 4
         }
     }
 }
