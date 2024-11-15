@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: - SubjectCell
 final class SubjectCell: UITableViewCell {
     
     //MARK: - Properties
@@ -80,7 +81,6 @@ final class SubjectCell: UITableViewCell {
         setAppearance()
         setupHierarchy()
         setConstraints()
-        mainStackView.setCustomSpacing(27, after: textsStackView)
     }
     
     private func setAppearance() {
@@ -88,9 +88,10 @@ final class SubjectCell: UITableViewCell {
         contentView.backgroundColor = CustomColors.neutralLighterGrey
         contentView.clipsToBounds = true
         mainStackView.setCustomSpacing(
-            27,
+            Constants.Sizing.customSpacingAfterTexts,
             after: textsStackView
         )
+        self.selectionStyle = .none
     }
     
     private func setupHierarchy() {
@@ -167,6 +168,7 @@ extension SubjectCell {
             static let cornerRadius: CGFloat = 26
 
             static let mainStackViewSpacing: CGFloat = 18
+            static let customSpacingAfterTexts: CGFloat = 27
             static let textsStackViewSpacing: CGFloat = 0
             
             static let mainStackViewSidePadding: CGFloat = 29.5

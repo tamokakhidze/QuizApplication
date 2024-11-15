@@ -7,7 +7,7 @@
 
 import Foundation
 
-class HomeViewModel {
+final class HomeViewModel {
     
     // MARK: - Properties
     let subjectImages: [String] = ["geographyImage", "programmingImage", "historyImage", "atomImage" ]

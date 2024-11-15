@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: - HomeViewController
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
     
     // MARK: - UI Components
     private let mainStackView: UIStackView = {
@@ -54,6 +54,7 @@ class HomeViewController: UIViewController {
             forCellReuseIdentifier: SubjectCell.identifier
         )
         tableView.separatorColor = .clear
+        tableView.showsVerticalScrollIndicator = false
         return tableView
     }()
     
@@ -117,7 +118,11 @@ class HomeViewController: UIViewController {
     }
     
     private func setupViewHierarchy() {
-        view.addSubviews(mainStackView, separatorView)
+        view.addSubviews(
+            mainStackView,
+            separatorView,
+            logoutButton
+        )
         mainStackView.addArrangedSubviews(
             greetingLabel,
             scoreSection,
@@ -169,7 +174,7 @@ class HomeViewController: UIViewController {
                     equalTo: view.trailingAnchor
                 ),
                 separatorView.bottomAnchor.constraint(
-                    equalTo: view.bottomAnchor,
+                    equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                     constant: Constants.Sizing.separatorBottomAnchor
                 )
             ]
@@ -184,6 +189,14 @@ class HomeViewController: UIViewController {
                 ),
                 logoutButton.widthAnchor.constraint(
                     equalToConstant: Constants.Sizing.logoutButtonDimension
+                ),
+                logoutButton.bottomAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                    constant: Constants.Sizing.logoutButtonAnchor
+                ),
+                logoutButton.trailingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                    constant: Constants.Sizing.logoutButtonAnchor
                 )
             ]
         )
@@ -234,41 +247,4 @@ extension HomeViewController: UITableViewDelegate {
         UIView()
     }
     
-}
-
-// MARK: - Constants Extension
-extension HomeViewController {
-    enum Constants {
-        enum Sizing {
-            static let tableViewRowHeight: CGFloat = 108
-            static let heightForFooterInSection: CGFloat = 20
-            static let tableViewTopAnchor: CGFloat = 190
-            
-            static let mainStackViewSpacing: CGFloat = 20
-            static let mainStackViewTopAnchor: CGFloat = 8
-            static let mainStackViewSidePadding: CGFloat = 16
-            static let mainStackViewBottomAnchor: CGFloat = -81
-            
-            static let labelForTableHeight: CGFloat = 60
-            
-            static let numberOfRowsInSection = 1
-            
-            static let scoreSectionHeight: CGFloat = 75
-            
-            static let separatorBottomAnchor: CGFloat = -65
-            static let separatorHeight: CGFloat = 1
-            
-            static let logoutButtonDimension: CGFloat = 42
-        }
-        
-        enum Texts {
-            static let tableViewHeaderLabelText = "აირჩიე საგანი"
-            static let greeting = "გამარჯობა, ირაკლი"
-        }
-        
-        enum TableView {
-            static let numberOfRowsInSection = 1
-            static let numberOfSections = 4
-        }
-    }
 }

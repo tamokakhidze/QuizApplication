@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: - DetailsButton
-class DetailsButton: UIButton {
+final class DetailsButton: UIButton {
     
     // MARK: - UI Components
     private let stackView: UIStackView = {
@@ -52,7 +52,10 @@ class DetailsButton: UIButton {
     }
     
     private func setupViewHierarchy() {
-        stackView.addArrangedSubviews(label, chevron)
+        stackView.addArrangedSubviews(
+            label,
+            chevron
+        )
         addSubview(stackView)
     }
     

@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: - ColorfulBackgroundView
-class ColorfulBackgroundView: UIView {
+final class ColorfulBackgroundView: UIView {
     
     // MARK: - UI Components
     private let mainStackView: UIStackView = {
