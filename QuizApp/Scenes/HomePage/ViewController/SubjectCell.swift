@@ -81,16 +81,13 @@ final class SubjectCell: UITableViewCell {
         setAppearance()
         setupHierarchy()
         setConstraints()
+        setCustomSpacing()
     }
     
     private func setAppearance() {
         contentView.layer.cornerRadius = Constants.Sizing.cornerRadius
         contentView.backgroundColor = CustomColors.neutralLighterGrey
         contentView.clipsToBounds = true
-        mainStackView.setCustomSpacing(
-            Constants.Sizing.customSpacingAfterTexts,
-            after: textsStackView
-        )
         self.selectionStyle = .none
     }
     
@@ -105,6 +102,13 @@ final class SubjectCell: UITableViewCell {
             subjectImage,
             textsStackView,
             nextButton
+        )
+    }
+    
+    private func setCustomSpacing() {
+        mainStackView.setCustomSpacing(
+            Constants.Sizing.customSpacingAfterTexts,
+            after: textsStackView
         )
     }
     
@@ -166,7 +170,7 @@ extension SubjectCell {
         
         enum Sizing {
             static let cornerRadius: CGFloat = 26
-
+            
             static let mainStackViewSpacing: CGFloat = 18
             static let customSpacingAfterTexts: CGFloat = 27
             static let textsStackViewSpacing: CGFloat = 0
