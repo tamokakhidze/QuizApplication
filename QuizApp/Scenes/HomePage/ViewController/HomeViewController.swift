@@ -128,7 +128,6 @@ final class HomeViewController: UIViewController {
             scoreSection,
             tableView
         )
-        
     }
     
     // MARK: - Constraints

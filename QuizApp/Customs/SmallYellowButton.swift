@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SmallYellowButton: UIButton {
+final class SmallYellowButton: UIButton {
     
     // MARK: - Lifecycle
     init() {
