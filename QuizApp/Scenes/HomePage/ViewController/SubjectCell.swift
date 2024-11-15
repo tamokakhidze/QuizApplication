@@ -64,7 +64,7 @@ final class SubjectCell: UITableViewCell {
         return stackView
     }()
     
-    static let identifier = "SubjectCell"
+    static let identifier = Constants.Texts.subjectCellIdentifier
     
     //MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -166,6 +166,7 @@ extension SubjectCell {
     enum Constants {
         enum Texts {
             static let descriptionLabelText = "აღწერა"
+            static let subjectCellIdentifier = "SubjectCell"
         }
         
         enum Sizing {
@@ -183,7 +184,6 @@ extension SubjectCell {
             static let textsStackViewTrailingAnchor: CGFloat = -71
             
             static let nextButtonPadding: CGFloat = 10
-            
         }
     }
 }
