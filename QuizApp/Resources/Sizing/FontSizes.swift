@@ -10,4 +10,5 @@ import Foundation
 struct FontSizes {
     static let xl: CGFloat = 20
     static let xs: CGFloat = 12
+    static let med: CGFloat = 16
 }
