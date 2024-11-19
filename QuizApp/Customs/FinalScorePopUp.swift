@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: - FinalScorePopUp
-class FinalScorePopUp: UIView {
+final class FinalScorePopUp: UIView {
     
     // MARK: - UI Components
     private let mainStackView: UIStackView = {

@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: - CustomPopUp
-class CustomPopUp: UIView {
+final class CustomPopUp: UIView {
     
     // MARK: - UI Components
     private let mainStackView: UIStackView = {
