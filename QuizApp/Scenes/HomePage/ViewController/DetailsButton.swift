@@ -15,7 +15,6 @@ final class DetailsButton: UIButton {
         let stackView = UIStackView()
         stackView.spacing = Constants.Sizing.stackViewSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
         return stackView
     }()
     
@@ -60,10 +59,10 @@ final class DetailsButton: UIButton {
     }
     
     private func setAppearance() {
-        self.clipsToBounds = true
-        self.contentHorizontalAlignment = .center
-        self.contentVerticalAlignment = .center
-        self.translatesAutoresizingMaskIntoConstraints = false
+        clipsToBounds = true
+        contentHorizontalAlignment = .center
+        contentVerticalAlignment = .center
+        translatesAutoresizingMaskIntoConstraints = false
     }
     
     // MARK: - Constraints
