@@ -19,7 +19,6 @@ final class SubjectCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = CustomColors.neutralDarkGrey
         label.font = .systemFont(
             ofSize: FontSizes.med,
@@ -30,7 +29,6 @@ final class SubjectCell: UITableViewCell {
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = Constants.Texts.descriptionLabelText
         label.textColor = CustomColors.neutralGrey
         label.font = .systemFont(
@@ -49,7 +47,6 @@ final class SubjectCell: UITableViewCell {
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
         stackView.spacing = Constants.Sizing.mainStackViewSpacing
         stackView.alignment = .center
         return stackView
@@ -88,7 +85,8 @@ final class SubjectCell: UITableViewCell {
         contentView.layer.cornerRadius = Constants.Sizing.cornerRadius
         contentView.backgroundColor = CustomColors.neutralLighterGrey
         contentView.clipsToBounds = true
-        self.selectionStyle = .none
+        selectionStyle = .none
+        backgroundColor = .clear
     }
     
     private func setupHierarchy() {
