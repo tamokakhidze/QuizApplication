@@ -26,24 +26,22 @@ final class PopupButton: UIButton {
     }
     
     private func setAppearance() {
-        self.backgroundColor = Constants.Colors.backgroundColor
-        self.clipsToBounds = true
-        self.contentHorizontalAlignment = .center
-        self.contentVerticalAlignment = .center
-        self.layer.cornerRadius = Constants.Sizing.radius
-        self.titleLabel?.font = .systemFont(
+        backgroundColor = Constants.Colors.backgroundColor
+        clipsToBounds = true
+        layer.cornerRadius = Constants.Sizing.radius
+        titleLabel?.font = .systemFont(
             ofSize: Constants.Sizing.medFontSize ,
             weight: .bold
         )
-        self.setTitleColor(
+        setTitleColor(
             Constants.Colors.neutralDarkGrey,
             for: .normal
         )
-        self.translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false
     }
     
     func configure(title: String) {
-        self.setTitle(title, for: .normal)
+        setTitle(title, for: .normal)
     }
     
     // MARK: - Constraints

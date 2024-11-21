@@ -15,7 +15,6 @@ final class CustomPopUp: UIView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.alignment = .fill
         stackView.distribution = .fillEqually
         stackView.spacing = Constants.Sizing.mainStackViewSpacing
         return stackView
@@ -24,7 +23,6 @@ final class CustomPopUp: UIView {
     private let buttonsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fillEqually
         stackView.spacing = Constants.Sizing.buttonsSpacing
@@ -86,10 +84,10 @@ final class CustomPopUp: UIView {
     }
     
     private func setAppearance() {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = Constants.Colors.yellowPrimary
-        self.layer.cornerRadius = Constants.Sizing.radius
-        self.clipsToBounds = true
+        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = Constants.Colors.yellowPrimary
+        layer.cornerRadius = Constants.Sizing.radius
+        clipsToBounds = true
     }
     
     private func setupViewHierarchy() {
