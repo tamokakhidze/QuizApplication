@@ -30,10 +30,7 @@ final class HomeViewController: UIViewController {
         return label
     }()
     
-    private let scoreSection: ColorfulBackgroundView = {
-        let view = ColorfulBackgroundView()
-        return view
-    }()
+    private let scoreSection = ColorfulBackgroundView()
     
     private let labelForTable: UILabel = {
         let label = UILabel()
@@ -45,16 +42,16 @@ final class HomeViewController: UIViewController {
         return label
     }()
     
-    private let tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.rowHeight = Constants.Sizing.tableViewRowHeight
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(
             SubjectCell.self,
             forCellReuseIdentifier: SubjectCell.identifier
         )
         tableView.separatorColor = .clear
         tableView.showsVerticalScrollIndicator = false
+        tableView.delegate = self
+        tableView.dataSource = self
         return tableView
     }()
     
@@ -91,7 +88,6 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         configureGpa()
-        setDelegates()
     }
     
     // MARK: - UI Setup
@@ -204,12 +200,6 @@ final class HomeViewController: UIViewController {
     private func configureGpa() {
         scoreSection.configure(gpa: viewModel.gpa)
     }
-    
-    // MARK: - Set Delegates
-    private func setDelegates() {
-        tableView.dataSource = self
-        tableView.delegate = self
-    }
 }
 
 // MARK: - UITableViewDataSource
@@ -228,7 +218,6 @@ extension HomeViewController: UITableViewDataSource {
         ) as? SubjectCell else {
             return UITableViewCell()
         }
-        cell.backgroundColor = .clear
         let image = viewModel.subjectImages[indexPath.section]
         cell.configureCell(
             image: (UIImage(named: image) ?? UIImage(named: "geographyImage"))!,
