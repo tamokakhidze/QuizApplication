@@ -46,6 +46,7 @@ class YellowRoundedButton: UIButton {
         setConstraints(height: height)
     }
     
+    // MARK: - Constraints
     private func setConstraints(height: CGFloat) {
         NSLayoutConstraint.activate([
             self.heightAnchor.constraint(equalToConstant: height)
