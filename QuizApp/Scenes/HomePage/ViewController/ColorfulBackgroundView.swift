@@ -13,16 +13,13 @@ final class ColorfulBackgroundView: UIView {
     // MARK: - UI Components
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.alignment = .fill
         stackView.distribution = .equalSpacing
         return stackView
     }()
     
     private let gpaStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = Constants.Sizing.gpaStackViewSpacing
         return stackView
@@ -83,10 +80,9 @@ final class ColorfulBackgroundView: UIView {
     }
     
     private func setAppearance() {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = CustomColors.blueSecondaryDefault
-        self.layer.cornerRadius = Constants.Sizing.radius
-        self.layer.cornerRadius = Constants.Sizing.radius
+        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = CustomColors.blueSecondaryDefault
+        layer.cornerRadius = Constants.Sizing.radius
     }
     
     private func setupViewHierarchy() {
