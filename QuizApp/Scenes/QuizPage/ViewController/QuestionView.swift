@@ -71,7 +71,7 @@ final class QuestionView: UIView {
                     constant: -Constants.Sizing.sidePadding
                 ),
                 questionView.heightAnchor.constraint(
-                    equalToConstant: 35
+                    equalToConstant: Constants.Sizing.questionViewHeight
                 )
             ]
         )
@@ -91,6 +91,7 @@ extension QuestionView {
             static let height: CGFloat = 103
             static let sidePadding: CGFloat = 56
             static let numberOfLines: Int = 0
+            static let questionViewHeight: CGFloat = 35
         }
     }
 }
