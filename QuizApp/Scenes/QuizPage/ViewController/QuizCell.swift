@@ -21,7 +21,7 @@ class QuizCell: UITableViewCell {
     static let identifier = Constants.Texts.identifier
     
     // MARK: - UI Components
-    private let optionTextLabel: UILabel = {
+    var optionTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = CustomColors.neutralDarkGrey
         label.font = .systemFont(
@@ -89,12 +89,13 @@ class QuizCell: UITableViewCell {
         
         if selected {
             if option.isCorrect {
-                self.backgroundColor = CustomColors.successColor
-                self.rightStackView.isHidden = false
+                backgroundColor = CustomColors.successColor
+                rightStackView.isHidden = false
+                optionTextLabel.textColor = CustomColors.neutralWhite
             } else {
-                self.backgroundColor = CustomColors.wrongColor
-                self.rightStackView.isHidden = true
-                
+                backgroundColor = CustomColors.wrongColor
+                rightStackView.isHidden = true
+                optionTextLabel.textColor = CustomColors.neutralWhite
                 showCorrectAnswer?()
             }
         }

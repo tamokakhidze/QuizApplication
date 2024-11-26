@@ -270,6 +270,7 @@ extension QuizViewController: UITableViewDataSource {
                 if option.isCorrect {
                     quizCell.backgroundColor = CustomColors.successColor
                     quizCell.rightStackView.isHidden = true
+                    quizCell.optionTextLabel.textColor = CustomColors.neutralWhite
                 }
             }
         }
