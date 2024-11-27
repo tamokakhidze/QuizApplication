@@ -14,10 +14,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
+        let viewController: UIViewController
         
-        let viewModel = HomeViewModel()
-        //let viewController = HomeViewController(viewModel: viewModel)
-        let viewController = QuizViewController(viewModel: viewModel, subject: Subject(icon: "", subjectTitle: "პროგრამირება", quizDescription: "აღწერა", quizQuestionCount: 5, questions: []))
+        let viewModel = LoginViewModel()
+        if viewModel.userExists {
+            let homeViewModel = HomeViewModel()
+            viewController = HomeViewController(viewModel: homeViewModel)
+        } else {
+            let loginViewModel = LoginViewModel()
+            viewController = LoginViewController(viewModel: loginViewModel)
+        }
         let navigationController = UINavigationController(rootViewController: viewController)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
