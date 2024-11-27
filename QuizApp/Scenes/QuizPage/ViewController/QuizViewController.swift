@@ -97,13 +97,12 @@ final class QuizViewController: UIViewController {
     private let currentPointsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = Constants.Sizing.currentPointsStackViewSpacing
-        stackView.distribution = .fillProportionally
+//        stackView.distribution = .fillProportionally
         return stackView
     }()
     
-    private let currentPointsLabel: UILabel = {
+    private var currentPointsLabel: UILabel = {
         let label = UILabel()
-        label.text = Constants.Texts.currentPointsLabelText
         label.textColor = CustomColors.yellowPrimary
         label.font = .systemFont(
             ofSize: FontSizes.xs,
@@ -150,6 +149,7 @@ final class QuizViewController: UIViewController {
     // MARK: - UI Setup
     private func setupUI() {
         setupNavigationBar()
+        setCurrentScoreTitle()
         setupView()
         setupViewHierarchy()
         setConstraints()
@@ -178,13 +178,41 @@ final class QuizViewController: UIViewController {
         navigationItem.hidesBackButton = true
     }
     
+    private func setCurrentScoreTitle() {
+        let emoji = Constants.Texts.emoji
+        let currentPoints = 3
+        let message = "მიმდინარე ქულა: \(currentPoints)"
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        paragraphStyle.lineSpacing = 5
+
+        let emojiAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: FontSizes.med14)
+        ]
+
+        let messageAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: FontSizes.med14, weight: .light),
+            .paragraphStyle: paragraphStyle
+        ]
+
+        let emojiAttributedString = NSAttributedString(string: emoji, attributes: emojiAttributes)
+        let messageAttributedString = NSAttributedString(string: message, attributes: messageAttributes)
+
+        let combinedAttributedString = NSMutableAttributedString()
+        combinedAttributedString.append(messageAttributedString)
+        combinedAttributedString.append(emojiAttributedString)
+
+        currentPointsLabel.attributedText = combinedAttributedString
+    }
+
+    
     private func setupViewHierarchy() {
         view.addSubviews(
             mainStackView
         )
         currentPointsStackView.addArrangedSubviews(
-            currentPointsLabel,
-            starImageView
+            currentPointsLabel
         )
         progressPointsStackView.addArrangedSubviews(
             questionNumberLabel,

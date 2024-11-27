@@ -40,6 +40,7 @@ extension QuizViewController {
             static let nextButtonTitle = "შემდეგი"
             static let currentPointsLabelText = "მიმდინარე ქულა:"
             static let leaveQuizText = "ნამდვილად გსურს გასვლა?"
+            static let emoji = "★"
         }
         
         enum TableView {

@@ -57,13 +57,6 @@ final class QuizCell: UITableViewCell {
         return label
     }()
     
-    private let starImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = .cellStar.withRenderingMode(.alwaysOriginal)
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
     //MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -111,8 +104,7 @@ final class QuizCell: UITableViewCell {
     private func setViewHierarchy() {
         addSubview(stackView)
         rightStackView.addArrangedSubviews(
-            plusOneLabel,
-            starImageView
+            plusOneLabel
         )
         stackView.addArrangedSubviews(
             optionTextLabel,
@@ -170,7 +162,7 @@ extension QuizCell {
         
         enum Texts {
             static let identifier = "QuizCell"
-            static let plusOneLabelText = "+1"
+            static let plusOneLabelText = "+1 ★"
         }
     }
 }
