@@ -209,7 +209,7 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        Constants.TableView.numberOfSections
+        viewModel.mockSubjects.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -218,10 +218,11 @@ extension HomeViewController: UITableViewDataSource {
         ) as? SubjectCell else {
             return UITableViewCell()
         }
-        let image = viewModel.subjectImages[indexPath.section]
+        let subject = viewModel.mockSubjects[indexPath.section]
+        let image = subject.icon
         cell.configureCell(
             image: (UIImage(named: image) ?? UIImage(named: "geographyImage"))!,
-            title: "გეოგრაფია"
+            title: subject.subjectTitle
         )
         
         return cell
@@ -239,4 +240,10 @@ extension HomeViewController: UITableViewDelegate {
         UIView()
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let subject = viewModel.mockSubjects[indexPath.section]
+        let quizViewModel = QuizViewModel(subject: subject)
+        let vc = QuizViewController(viewModel: quizViewModel)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }

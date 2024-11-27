@@ -17,6 +17,7 @@ final class QuizCell: UITableViewCell {
     // MARK: - Properties
     var option: Option?
     var showCorrectAnswer: (() -> Void)?
+    var handleScore: (() -> Void)?
     
     static let identifier = Constants.Texts.identifier
     
@@ -82,13 +83,14 @@ final class QuizCell: UITableViewCell {
         
         if selected {
             if option.isCorrect {
-                backgroundColor = CustomColors.successColor
-                rightStackView.isHidden = false
-                optionTextLabel.textColor = CustomColors.neutralWhite
+                self.backgroundColor = CustomColors.successColor
+                self.rightStackView.isHidden = false
+
+                handleScore?()
             } else {
-                backgroundColor = CustomColors.wrongColor
-                rightStackView.isHidden = true
-                optionTextLabel.textColor = CustomColors.neutralWhite
+                self.backgroundColor = CustomColors.wrongColor
+                self.rightStackView.isHidden = true
+                
                 showCorrectAnswer?()
             }
         }

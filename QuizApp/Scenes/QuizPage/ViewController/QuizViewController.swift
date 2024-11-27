@@ -9,7 +9,7 @@ import UIKit
 
 struct Question {
     var title: String
-    var options: [String]
+    var options: [Option]
     var questionIndex: Int
 } //Will have model separately later
 
@@ -65,7 +65,7 @@ final class QuizViewController: UIViewController {
     private lazy var questionView: QuestionView = {
         let view = QuestionView()
         view.configure(
-            question: question?.title ?? "Which programming language is used in iOS?"
+            question: viewModel.currentQuestion.title
         )
         return view
     }()
@@ -83,9 +83,9 @@ final class QuizViewController: UIViewController {
         return stackView
     }()
     
-    private let questionNumberLabel: UILabel = {
+    private lazy var questionNumberLabel: UILabel = {
         let label = UILabel()
-        label.text = "1/10" //Will change
+        label.text = "\(viewModel.currentQuestion.questionIndex+1)/\(viewModel.totalQuestions)"
         label.textColor = CustomColors.neutralDarkGrey
         label.font = .systemFont(
             ofSize: FontSizes.med14,
@@ -97,12 +97,12 @@ final class QuizViewController: UIViewController {
     private let currentPointsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = Constants.Sizing.currentPointsStackViewSpacing
-//        stackView.distribution = .fillProportionally
         return stackView
     }()
     
-    private var currentPointsLabel: UILabel = {
+    private lazy var currentPointsLabel: UILabel = {
         let label = UILabel()
+        label.text = Constants.Texts.currentPointsLabelText + "\(viewModel.quizScore)"
         label.textColor = CustomColors.yellowPrimary
         label.font = .systemFont(
             ofSize: FontSizes.xs,
@@ -111,24 +111,14 @@ final class QuizViewController: UIViewController {
         return label
     }()
     
-    private let starImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = .star.withRenderingMode(.alwaysOriginal)
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
     private let progressBar = ProgressView()
     
     // MARK: - Properties
-    private var viewModel: HomeViewModel
-    private var question: Question?
-    private var subject: Subject
+    private var viewModel: QuizViewModel
     
     // MARK: - Lifecycle
-    init(viewModel: HomeViewModel, subject: Subject) {
+    init(viewModel: QuizViewModel) {
         self.viewModel = viewModel
-        self.subject = subject
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -143,7 +133,10 @@ final class QuizViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        progressBar.configure(progress: 3, quizQuestionCount: subject.quizQuestionCount)
+        progressBar.configure(
+            progress: viewModel.currentQuestion.questionIndex+1,
+            quizQuestionCount: viewModel.totalQuestions
+        )
     }
     
     // MARK: - UI Setup
@@ -161,7 +154,7 @@ final class QuizViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        title = subject.subjectTitle
+        title = viewModel.quizTitle
         navigationController?.navigationBar.titleTextAttributes = [
             .font: UIFont.systemFont(ofSize: FontSizes.med, weight: .bold),
             .foregroundColor: CustomColors.neutralDarkGrey
@@ -182,30 +175,30 @@ final class QuizViewController: UIViewController {
         let emoji = Constants.Texts.emoji
         let currentPoints = 3
         let message = "მიმდინარე ქულა: \(currentPoints)"
-
+        
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = 5
-
+        
         let emojiAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: FontSizes.med14)
         ]
-
+        
         let messageAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: FontSizes.med14, weight: .light),
             .paragraphStyle: paragraphStyle
         ]
-
+        
         let emojiAttributedString = NSAttributedString(string: emoji, attributes: emojiAttributes)
         let messageAttributedString = NSAttributedString(string: message, attributes: messageAttributes)
-
+        
         let combinedAttributedString = NSMutableAttributedString()
         combinedAttributedString.append(messageAttributedString)
         combinedAttributedString.append(emojiAttributedString)
-
+        
         currentPointsLabel.attributedText = combinedAttributedString
     }
-
+    
     
     private func setupViewHierarchy() {
         view.addSubviews(
@@ -254,15 +247,98 @@ final class QuizViewController: UIViewController {
         )
     }
     
+    // MARK: - Show PopUps
+    private func showScorePopup() {
+        let popup = FinalScorePopUp()
+        popup.configure(points: viewModel.quizScore)
+        
+        popup.closeAction = {
+            popup.removeFromSuperview()
+        }
+        
+        if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+            popup.frame = window.bounds
+            window.addSubview(popup)
+            
+            popup.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate(
+                [
+                    popup.leadingAnchor.constraint(
+                        equalTo: window.leadingAnchor,
+                        constant: Constants.Sizing.popupSidePadding
+                    ),
+                    popup.trailingAnchor.constraint(
+                        equalTo: window.trailingAnchor,
+                        constant: -Constants.Sizing.popupSidePadding
+                    ),
+                    popup.topAnchor.constraint(
+                        equalTo: window.topAnchor,
+                        constant: Constants.Sizing.popupVerticalPadding
+                    ),
+                    popup.bottomAnchor.constraint(
+                        equalTo: window.bottomAnchor,
+                        constant: -Constants.Sizing.popupVerticalPadding
+                    )
+                ]
+            )
+        }
+    }
+    
+    private func showClosePopup() {
+        let popup = CustomPopUp()
+        popup.configure(question: Constants.Texts.leaveQuizText)
+        
+        popup.onAcceptAction = { [weak self] in
+            popup.removeFromSuperview()
+            let homeViewModel = HomeViewModel()
+            let vc = HomeViewController(viewModel: homeViewModel)
+            self?.navigationController?.pushViewController(vc, animated: false)
+        }
+        
+        popup.onRejectAction = {
+            popup.removeFromSuperview()
+        }
+        
+        if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+            popup.frame = window.bounds
+            window.addSubview(popup)
+            
+            popup.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate(
+                [
+                    popup.leadingAnchor.constraint(
+                        equalTo: window.leadingAnchor,
+                        constant: Constants.Sizing.popupSidePadding
+                    ),
+                    popup.trailingAnchor.constraint(
+                        equalTo: window.trailingAnchor,
+                        constant: -Constants.Sizing.popupSidePadding
+                    ),
+                    popup.topAnchor.constraint(
+                        equalTo: window.topAnchor,
+                        constant: Constants.Sizing.popupVerticalPadding
+                    ),
+                    popup.bottomAnchor.constraint(
+                        equalTo: window.bottomAnchor,
+                        constant: -Constants.Sizing.popupVerticalPadding
+                    )
+                ]
+            )
+        }
+    }
+    
     // MARK: - Actions
     @objc private func didTapCloseButton() {
-        let vc = HomeViewController(viewModel: viewModel)
-        navigationController?.pushViewController(vc, animated: false)
+        showClosePopup()
     }
     
     @objc private func nextButtonTapped() {
-        let vc = QuizViewController(viewModel: viewModel, subject: subject)
-        navigationController?.pushViewController(vc, animated: true)
+        let vc = QuizViewController(viewModel: viewModel)
+        if viewModel.hasNextQuestion() {
+            navigationController?.pushViewController(vc, animated: true)
+        } else if viewModel.isLastQuestion() {
+            showScorePopup()
+        }
     }
 }
 
@@ -278,16 +354,14 @@ extension QuizViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: QuizCell.identifier) as? QuizCell
-        let options = [
-            Option(title: "Python", isCorrect: false),
-            Option(title: "C++", isCorrect: false),
-            Option(title: "Ruby", isCorrect: false),
-            Option(title: "Swift", isCorrect: true)
-        ] //Wont be here in the future
-        cell?.option = options[indexPath.section]
-        cell?.configure(text: options[indexPath.section].title)
+        
+        cell?.option = viewModel.currentQuestion.options[indexPath.section]
+        cell?.configure(text: viewModel.currentQuestion.options[indexPath.section].title)
         cell?.showCorrectAnswer = { [weak self] in
             self?.highlightCorrectAnswer()
+        }
+        cell?.handleScore = { [weak self] in
+            self?.viewModel.increaseScore()
         }
         return cell!
     }
@@ -313,5 +387,10 @@ extension QuizViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         UIView()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.updateIndex()
+        tableView.isUserInteractionEnabled = false
     }
 }
