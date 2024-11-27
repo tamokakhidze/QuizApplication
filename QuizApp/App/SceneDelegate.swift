@@ -16,8 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         
         let viewModel = HomeViewModel()
-        let viewController = HomeViewController(viewModel: viewModel)
-
+        //let viewController = HomeViewController(viewModel: viewModel)
+        let viewController = QuizViewController(viewModel: viewModel, subject: Subject(icon: "", subjectTitle: "პროგრამირება", quizDescription: "აღწერა", quizQuestionCount: 5, questions: []))
         let navigationController = UINavigationController(rootViewController: viewController)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
