@@ -44,7 +44,6 @@ final class QuestionView: UIView {
     }
     
     private func setAppearance() {
-        translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = CustomColors.blueSecondaryLightest
         layer.cornerRadius = Constants.Sizing.radius
     }

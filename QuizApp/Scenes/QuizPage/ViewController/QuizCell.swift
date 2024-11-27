@@ -12,7 +12,7 @@ struct Option {
 
 import UIKit
 
-class QuizCell: UITableViewCell {
+final class QuizCell: UITableViewCell {
     
     // MARK: - Properties
     var option: Option?
