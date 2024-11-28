@@ -7,14 +7,12 @@
 
 import Foundation
 
-class QuizViewModel {
+final class QuizViewModel {
+    
+    // MARK: - Properties
     private var subject: Subject
     private var currentQuestionIndex = 0
     private var score = 0
-    
-    init(subject: Subject) {
-        self.subject = subject
-    }
     
     var quizTitle: String {
         return subject.subjectTitle
@@ -36,6 +34,16 @@ class QuizViewModel {
         return subject.quizQuestionCount
     }
     
+    var quizScore: Int {
+        return score
+    }
+    
+    // MARK: - Init
+    init(subject: Subject) {
+        self.subject = subject
+    }
+    
+    // MARK: - Methods for quiz logic
     func increaseScore() {
         score += 1
     }
@@ -55,9 +63,5 @@ class QuizViewModel {
     
     func isLastQuestion() -> Bool {
         return currentQuestionIndex == totalQuestions
-    }
-    
-    var quizScore: Int {
-        return score
     }
 }
