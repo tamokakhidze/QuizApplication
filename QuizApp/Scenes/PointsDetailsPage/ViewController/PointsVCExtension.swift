@@ -13,7 +13,8 @@ extension PointsDetailsViewController {
             static let tableViewTopAnchor: CGFloat = 49
             static let tableViewSidePadding: CGFloat = 16
             static let tableViewBottomAnchor: CGFloat = 348
-                        
+            
+            static let noPointsLabelSidePadding: CGFloat = 90
             static let separatorBottomAnchor: CGFloat = -50
             static let separatorHeight: CGFloat = 1
             

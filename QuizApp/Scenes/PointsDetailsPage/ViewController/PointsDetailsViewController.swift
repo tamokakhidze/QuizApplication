@@ -131,7 +131,6 @@ final class PointsDetailsViewController: UIViewController {
     }
     
     private func setupNoPointsLabelText() -> NSAttributedString {
-
         let titleAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: FontSizes.med18),
             .foregroundColor: CustomColors.neutralDarkGrey
@@ -202,11 +201,11 @@ final class PointsDetailsViewController: UIViewController {
             [
                 noPointsLabel.leadingAnchor.constraint(
                     equalTo: view.leadingAnchor,
-                    constant: 90
+                    constant: Constants.Sizing.noPointsLabelSidePadding
                 ),
                 noPointsLabel.trailingAnchor.constraint(
                     equalTo: view.trailingAnchor,
-                    constant: -90
+                    constant: -Constants.Sizing.noPointsLabelSidePadding
                 ),
                 noPointsLabel.centerYAnchor.constraint(
                     equalTo: view.centerYAnchor
