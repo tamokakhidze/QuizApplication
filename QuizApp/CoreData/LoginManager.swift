@@ -8,7 +8,7 @@
 import CoreData
 import UIKit
 
-class LoginManager {
+final class LoginManager {
     
     // MARK: - Properties
     public static let shared = LoginManager()
@@ -65,6 +65,5 @@ class LoginManager {
     func getCurrentUserPoints() -> [String: Int]? {
         return currentUser?.value(forKey: "points") as? [String: Int]
     }
-
     
 }
