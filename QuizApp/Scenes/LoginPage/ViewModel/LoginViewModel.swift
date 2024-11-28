@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LoginViewModel {
+final class LoginViewModel {
     
     // MARK: - Properties
     private let loginManager = LoginManager.shared
