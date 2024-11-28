@@ -10,7 +10,7 @@ import Foundation
 class LoginViewModel {
     
     // MARK: - Properties
-    let loginManager = LoginManager.shared
+    private let loginManager = LoginManager.shared
     
     private var _userExists: Bool = false
     
