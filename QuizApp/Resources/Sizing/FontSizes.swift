@@ -12,4 +12,5 @@ struct FontSizes {
     static let xs: CGFloat = 12
     static let med: CGFloat = 16
     static let med14: CGFloat = 14
+    static let med18: CGFloat = 18
 }
