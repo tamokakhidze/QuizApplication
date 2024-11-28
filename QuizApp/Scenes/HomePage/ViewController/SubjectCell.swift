@@ -38,11 +38,7 @@ final class SubjectCell: UITableViewCell {
         return label
     }()
     
-    private let nextButton: SmallYellowButton = {
-        let button = SmallYellowButton()
-        button.configure(image: .nextButton)
-        return button
-    }()
+    private let nextButton = SmallYellowButton()
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -153,9 +149,15 @@ final class SubjectCell: UITableViewCell {
     }
     
     //MARK: - Cell Configuration
-    func configureCell(image: UIImage, title: String) {
-        subjectImage.image = image
+    func configureCell(image: String, title: String, buttonImage: String? = nil, buttonText: Int? = nil) {
+        subjectImage.image = UIImage(named: image)
         titleLabel.text = title
+        
+        if let buttonImage = buttonImage {
+            nextButton.configure(image: UIImage(named: buttonImage))
+        } else if let buttonText = buttonText {
+            nextButton.configure(text: "\(buttonText)")
+        }
     }
 }
 

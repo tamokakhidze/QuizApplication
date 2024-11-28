@@ -35,11 +35,23 @@ final class SmallYellowButton: UIButton {
         self.contentHorizontalAlignment = .center
         self.contentVerticalAlignment = .center
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.setImage(.nextButton.withRenderingMode(.alwaysOriginal), for: .normal)
     }
     
-    func configure(image: UIImage) {
-        self.setImage(image, for: .normal)
+    func configure(image: UIImage? = nil, text: String? = nil) {
+        if let image = image {
+            self.setImage(image, for: .normal)
+            self.setTitle(nil, for: .normal)
+        } else {
+            self.setImage(nil, for: .normal)
+            self.setTitle(text, for: .normal)
+        }
+        
+        if text != nil {
+            self.setTitleColor(.white, for: .normal)
+            self.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
+        } else {
+            self.setTitleColor(.clear, for: .normal)
+        }
     }
     
 }
