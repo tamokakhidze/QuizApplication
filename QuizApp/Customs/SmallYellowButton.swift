@@ -21,7 +21,7 @@ final class SmallYellowButton: UIButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.layer.cornerRadius = self.bounds.height / 2
+        layer.cornerRadius = bounds.height / 2
     }
     
     // MARK: - Configurations
@@ -30,27 +30,30 @@ final class SmallYellowButton: UIButton {
     }
     
     private func setupView() {
-        self.backgroundColor = CustomColors.yellowPrimary
-        self.clipsToBounds = true
-        self.contentHorizontalAlignment = .center
-        self.contentVerticalAlignment = .center
-        self.translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = CustomColors.yellowPrimary
+        clipsToBounds = true
+        contentHorizontalAlignment = .center
+        contentVerticalAlignment = .center
+        translatesAutoresizingMaskIntoConstraints = false
     }
     
     func configure(image: UIImage? = nil, text: String? = nil) {
         if let image = image {
-            self.setImage(image, for: .normal)
-            self.setTitle(nil, for: .normal)
+            setImage(image, for: .normal)
+            setTitle(nil, for: .normal)
         } else {
-            self.setImage(nil, for: .normal)
-            self.setTitle(text, for: .normal)
+            setImage(nil, for: .normal)
+            setTitle(text, for: .normal)
         }
         
         if text != nil {
-            self.setTitleColor(.white, for: .normal)
-            self.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
+            setTitleColor(.white, for: .normal)
+            titleLabel?.font = .systemFont(
+                ofSize: FontSizes.med14,
+                weight: .bold
+            )
         } else {
-            self.setTitleColor(.clear, for: .normal)
+           setTitleColor(.clear, for: .normal)
         }
     }
     
