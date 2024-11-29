@@ -14,6 +14,10 @@ final class QuizViewModel {
     private var currentQuestionIndex = 0
     private var score = 0
     
+    private let loginManager = LoginManager.shared
+    private let quizManager = QuizManager.shared
+    private lazy var userName = loginManager.currentUser?.value(forKey: "name") as? String
+    
     var quizTitle: String {
         return subject.subjectTitle
     }
@@ -63,5 +67,10 @@ final class QuizViewModel {
     
     func isLastQuestion() -> Bool {
         return currentQuestionIndex == totalQuestions
+    }
+    
+    // MARK: - Saving to CoreData after quiz ends
+    func finishQuiz() {
+        quizManager.saveQuizPoints(for: subject, points: quizScore)
     }
 }

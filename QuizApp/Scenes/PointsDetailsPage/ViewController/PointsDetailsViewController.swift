@@ -58,7 +58,26 @@ final class PointsDetailsViewController: UIViewController {
             .logoutButton,
             for: .normal
         )
+        button.addTarget(
+            self,
+            action: #selector(logOutButtonTapped),
+            for: .touchUpInside
+        )
         return button
+    }()
+    
+    private lazy var logOutPopUp: CustomPopUp = {
+        let popup = CustomPopUp()
+        popup.configure(question: Constants.Texts.logOutPopUpText)
+        popup.onAcceptAction = { [weak self] in
+            popup.removeFromSuperview()
+            self?.navigationController?.popToRootViewController(animated: false)
+        }
+        
+        popup.onRejectAction = {
+            popup.removeFromSuperview()
+        }
+        return popup
     }()
     
     // MARK: - Properties
@@ -77,16 +96,17 @@ final class PointsDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.viewDidLoad()
         setupUI()
         updatePointsUI()
     }
     
     private func updatePointsUI() {
-        isPointsEmpty = viewModel.points.isEmpty
+        isPointsEmpty = viewModel.isEmpty
         noPointsLabel.isHidden = !isPointsEmpty
         tableView.isHidden = isPointsEmpty
     }
-
+    
     // MARK: - UI Setup
     private func setupUI() {
         setupView()
@@ -97,6 +117,7 @@ final class PointsDetailsViewController: UIViewController {
     
     private func setupView() {
         view.backgroundColor = CustomColors.neutralWhite
+        navigationController?.isNavigationBarHidden = false
     }
     
     private func setupViewHierarchy() {
@@ -162,7 +183,6 @@ final class PointsDetailsViewController: UIViewController {
         )
         closeButton.tintColor = CustomColors.neutralDarkGrey
         navigationItem.leftBarButtonItem = closeButton
-        navigationItem.hidesBackButton = true
     }
     
     // MARK: - Constraints
@@ -255,9 +275,43 @@ final class PointsDetailsViewController: UIViewController {
         )
     }
     
+    private func configurePopUpConstraints() {
+        NSLayoutConstraint.activate(
+            [
+                logOutPopUp.leadingAnchor.constraint(
+                    equalTo: view.leadingAnchor,
+                    constant: Constants.Sizing.popupSidePadding
+                ),
+                logOutPopUp.trailingAnchor.constraint(
+                    equalTo: view.trailingAnchor,
+                    constant: -Constants.Sizing.popupSidePadding
+                ),
+                logOutPopUp.topAnchor.constraint(
+                    equalTo: view.topAnchor,
+                    constant: Constants.Sizing.popupVerticalPadding
+                ),
+                logOutPopUp.bottomAnchor.constraint(
+                    equalTo: view.bottomAnchor,
+                    constant: -Constants.Sizing.popupVerticalPadding
+                )
+            ]
+        )
+    }
+    
+    private func showLogOutPopUp() {
+        view.addSubview(logOutPopUp)
+        configurePopUpConstraints()
+    }
+    
+    // MARK: - Actions
     @objc private func didTapLeftArrow() {
         navigationController?.popViewController(animated: true)
     }
+    
+    @objc private func logOutButtonTapped() {
+        showLogOutPopUp()
+    }
+    
 }
 
 // MARK: - UITableViewDataSource
@@ -267,7 +321,7 @@ extension PointsDetailsViewController: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        Constants.TableView.numberOfSections
+        viewModel.points?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -276,12 +330,12 @@ extension PointsDetailsViewController: UITableViewDataSource {
         ) as? SubjectCell else {
             return UITableViewCell()
         }
-        let key = Array(viewModel.points.keys)[indexPath.section]
-        let point = viewModel.points[key]
         let image = viewModel.subjectImages[indexPath.section]
-        cell.configureCell(image: image, title: key, buttonText: point ?? 0)
+        let point = viewModel.pointValues[indexPath.section]
+        cell.configureCell(image: image, title: viewModel.pointKeys[indexPath.section], buttonText: point)
+        
         return cell
-
+        
     }
     
 }

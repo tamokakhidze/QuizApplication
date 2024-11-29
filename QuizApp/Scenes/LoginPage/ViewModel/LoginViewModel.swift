@@ -46,6 +46,5 @@ final class LoginViewModel {
     func logOutTapped() {
         _userExists = false
         userName = nil
-        print(userName?.debugDescription)
     }
 }

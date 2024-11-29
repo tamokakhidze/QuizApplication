@@ -19,9 +19,9 @@ final class HomeViewController: UIViewController {
         return stackView
     }()
     
-    private let greetingLabel: UILabel = {
+    private lazy var greetingLabel: UILabel = {
         let label = UILabel()
-        label.text = Constants.Texts.greeting
+        label.text = viewModel.userName
         label.textColor = CustomColors.yellowPrimary
         label.font = .systemFont(
             ofSize: FontSizes.med,
@@ -30,7 +30,13 @@ final class HomeViewController: UIViewController {
         return label
     }()
     
-    private let scoreSection = ColorfulBackgroundView()
+    private lazy var scoreSection: ColorfulBackgroundView = {
+        let scoreSection = ColorfulBackgroundView()
+        scoreSection.viewDetailsAction = { [weak self] in
+            self?.detailsTapped()
+        }
+        return scoreSection
+    }()
     
     private let labelForTable: UILabel = {
         let label = UILabel()
@@ -93,6 +99,11 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         configureGpa()
+    }
+    
+    override func viewWillAppear(_ animated: Bool ) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
     }
     
     // MARK: - UI Setup
@@ -213,6 +224,12 @@ final class HomeViewController: UIViewController {
         let vc = LoginViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: false)
     }
+    
+    private func detailsTapped() {
+        let vm = PointsDetailsViewModel()
+        let vc = PointsDetailsViewController(viewModel: vm)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -234,8 +251,9 @@ extension HomeViewController: UITableViewDataSource {
         let subject = viewModel.mockSubjects[indexPath.section]
         let image = subject.icon
         cell.configureCell(
-            image: (UIImage(named: image) ?? UIImage(named: "geographyImage"))!,
-            title: subject.subjectTitle
+            image: image,
+            title: subject.subjectTitle,
+            buttonImage: "nextButtonImage"
         )
         
         return cell

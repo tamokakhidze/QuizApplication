@@ -20,6 +20,9 @@ extension PointsDetailsViewController {
             
             static let logoutButtonDimension: CGFloat = 42
             static let logoutButtonAnchor: CGFloat = -5
+            
+            static let popupSidePadding: CGFloat = 52
+            static let popupVerticalPadding: CGFloat = 334
         }
         
         enum Texts {
@@ -27,6 +30,7 @@ extension PointsDetailsViewController {
             static let noPointsLabelEmoji = "🧐"
             static let noPointsLabelText = "სამწუხაროდ,\nქულები ჯერ არ გაქვს\n დაგროვილი."
             static let emoji = "★"
+            static let logOutPopUpText = "ნამდვილად გსურს გასვლა?"
         }
         
         enum TableView {

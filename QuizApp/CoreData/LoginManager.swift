@@ -25,7 +25,6 @@ final class LoginManager {
         
         let user = NSManagedObject(entity: usersEntity, insertInto: managedContext)
         user.setValue(name, forKey: "name")
-        user.setValue(["quiz1": 0], forKey: "points")
         
         do {
             try managedContext.save()

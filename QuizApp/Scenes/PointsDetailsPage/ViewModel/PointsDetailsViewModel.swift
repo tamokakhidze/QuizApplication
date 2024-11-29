@@ -9,13 +9,25 @@ import Foundation
 
 class PointsDetailsViewModel {
     let subjectImages: [String] = ["geographyImage", "programmingImage", "historyImage", "atomImage" ]
-    let points : [String : Int] = [
-        "Geography" : 3,
-        "History" : 5,
-        "Programming": 5,
-        "Math" : 3
-    ]
+    
     var isEmpty: Bool {
-        return points.isEmpty
+        return points?.isEmpty ?? true
+    }
+
+    
+    let loginManager = LoginManager.shared
+    
+    var points: [String: Int]?
+    
+    var pointKeys: [String] {
+        return points?.keys.map { $0 } ?? []
+    }
+    
+    var pointValues: [Int] {
+        return points?.values.map { $0 } ?? []
+    }
+    
+    func viewDidLoad() {
+        points = loginManager.getCurrentUserPoints()
     }
 }

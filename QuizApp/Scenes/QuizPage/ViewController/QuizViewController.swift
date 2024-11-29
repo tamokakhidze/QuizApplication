@@ -102,7 +102,13 @@ final class QuizViewController: UIViewController {
     
     private lazy var currentPointsLabel: UILabel = {
         let label = UILabel()
-        let message = "მიმდინარე ქულა: \(viewModel.quizScore)"
+        var message = ""
+        if viewModel.isLastQuestion() {
+            message = "მიმდინარე ქულა:\(viewModel.quizScore+1)"
+        } else {
+            message = "მიმდინარე ქულა:\(viewModel.quizScore)"
+        }
+        
         let messageAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(
                 ofSize: FontSizes.med14,
@@ -123,6 +129,10 @@ final class QuizViewController: UIViewController {
         combinedAttributedString.append(messageAttributedString)
         combinedAttributedString.append(emojiAttributedString)
         label.attributedText = combinedAttributedString
+        
+        if viewModel.isLastQuestion() {
+            message = "მიმდინარე ქულა:\(viewModel.quizScore+1)"
+        }
         return label
     }()
     
@@ -132,6 +142,7 @@ final class QuizViewController: UIViewController {
         popup.translatesAutoresizingMaskIntoConstraints = false
         popup.closeAction = { [weak self] in
             popup.removeFromSuperview()
+            self?.backgroundBlur.removeFromSuperview()
         }
         return popup
     }()
@@ -153,6 +164,13 @@ final class QuizViewController: UIViewController {
             popup.removeFromSuperview()
         }
         return popup
+    }()
+    
+    private lazy var backgroundBlur: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white.withAlphaComponent(0.7)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private let progressBar = ProgressView()
@@ -272,13 +290,8 @@ final class QuizViewController: UIViewController {
                     equalTo: view.trailingAnchor,
                     constant: -Constants.Sizing.popupSidePadding
                 ),
-                scorePopUp.topAnchor.constraint(
-                    equalTo: view.topAnchor,
-                    constant: Constants.Sizing.popupVerticalPadding
-                ),
-                scorePopUp.bottomAnchor.constraint(
-                    equalTo: view.bottomAnchor,
-                    constant: -Constants.Sizing.popupVerticalPadding
+                scorePopUp.centerYAnchor.constraint(
+                    equalTo: view.centerYAnchor
                 )
             ]
         )
@@ -295,27 +308,50 @@ final class QuizViewController: UIViewController {
                     equalTo: view.trailingAnchor,
                     constant: -Constants.Sizing.popupSidePadding
                 ),
-                closeQuizPopUp.topAnchor.constraint(
-                    equalTo: view.topAnchor,
-                    constant: Constants.Sizing.popupVerticalPadding
-                ),
-                closeQuizPopUp.bottomAnchor.constraint(
-                    equalTo: view.bottomAnchor,
-                    constant: -Constants.Sizing.popupVerticalPadding
+                closeQuizPopUp.centerYAnchor.constraint(
+                    equalTo: view.centerYAnchor
                 )
             ]
         )
     }
     
+    private func setBlurViewConstraints() {
+        NSLayoutConstraint.activate([
+            backgroundBlur.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            backgroundBlur.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            ),
+            backgroundBlur.topAnchor.constraint(
+                equalTo: view.topAnchor
+            ),
+            backgroundBlur.bottomAnchor.constraint(
+                equalTo: view.bottomAnchor
+            )
+        ])
+    }
+    
     // MARK: - Show PopUps
     private func showScorePopup() {
+        showBlurView()
         view.addSubview(scorePopUp)
         setScorePopUpConstraints()
+    }
+    
+    private func showBlurView() {
+        view.addSubview(backgroundBlur)
+        setBlurViewConstraints()
     }
     
     private func showClosePopup() {
         view.addSubview(closeQuizPopUp)
         setCloseQuizPopUpConstraints()
+    }
+    
+    private func updateNextButtonTitle() {
+        let buttonTitle = viewModel.isLastQuestion() ? "დასრულება" : Constants.Texts.nextButtonTitle
+        nextButton.setTitle(buttonTitle, for: .normal)
     }
     
     // MARK: - Actions
@@ -328,7 +364,9 @@ final class QuizViewController: UIViewController {
         if viewModel.hasNextQuestion() {
             navigationController?.pushViewController(vc, animated: true)
         } else if viewModel.isLastQuestion() {
+            updateNextButtonTitle()
             showScorePopup()
+            viewModel.finishQuiz()
         }
     }
 }

@@ -20,6 +20,10 @@ final class HomeViewModel {
         }
     }
     
+    var userName: String {
+        LoginManager.shared.getCurrentUserName() ?? "No user name"
+    }
+    
     let mockSubjects: [Subject] = [
         Subject(
             icon: "geographyImage",
