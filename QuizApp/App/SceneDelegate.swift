@@ -14,16 +14,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        let viewController: UIViewController
         
-        let viewModel = LoginViewModel()
-        if viewModel.userExists {
-            let homeViewModel = HomeViewModel()
-            viewController = HomeViewController(viewModel: homeViewModel)
-        } else {
-            let loginViewModel = LoginViewModel()
-            viewController = LoginViewController(viewModel: loginViewModel)
-        }
+        let viewModel = HomeViewModel()
+        let viewController = HomeViewController(viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: viewController)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
