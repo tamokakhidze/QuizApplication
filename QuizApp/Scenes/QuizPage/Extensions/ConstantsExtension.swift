@@ -33,13 +33,15 @@ extension QuizViewController {
             
             static let currentPointsStackViewSpacing: CGFloat = 2
             static let progressIndicatorStackViewSpacing: CGFloat = 2
+            
+            static let popupSidePadding: CGFloat = 52
+            static let popupVerticalPadding: CGFloat = 334
         }
         
         enum Texts {
-            static let tableViewHeaderLabelText = "აირჩიე საგანი"
             static let nextButtonTitle = "შემდეგი"
             static let currentPointsLabelText = "მიმდინარე ქულა:"
-            static let leaveQuizText = "ნამდვილად გსურს გასვლა?"
+            static let leaveQuizText = "ნამდვილად გსურს ქვიზის შეწყვეტა?"
             static let emoji = "★"
         }
         

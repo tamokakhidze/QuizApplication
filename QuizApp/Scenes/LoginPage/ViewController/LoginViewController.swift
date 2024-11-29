@@ -59,8 +59,13 @@ class LoginViewController: UIViewController {
         return input
     }()
     
-    private let startButton: YellowRoundedButton = {
+    private lazy var startButton: YellowRoundedButton = {
         let button = YellowRoundedButton()
+        button.addTarget(
+            self,
+            action: #selector(authorizeToStartQuiz),
+            for: .touchUpInside
+        )
         button.configure(
             title: Constants.Texts.startButtonTitle,
             height: Constants.Sizing.startButtonHeight,
@@ -72,8 +77,18 @@ class LoginViewController: UIViewController {
     
     // MARK: - Constraints
     private var blueBackgroundTopConstraint: NSLayoutConstraint!
+    private var viewModel: LoginViewModel
     
     // MARK: - Lifecycle
+    init(viewModel: LoginViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -206,5 +221,11 @@ class LoginViewController: UIViewController {
         view.endEditing(true)
     }
     
+    @objc private func authorizeToStartQuiz() {
+        viewModel.authorizeUser(with: input.text ?? "No name")
+        let viewModel = HomeViewModel()
+        let vc = HomeViewController(viewModel: viewModel)
+        navigationController?.pushViewController(vc, animated: false)
+    }
 }
 
