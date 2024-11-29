@@ -64,6 +64,11 @@ final class HomeViewController: UIViewController {
     
     private lazy var logoutButton: SmallYellowButton = {
         let button = SmallYellowButton()
+        button.addTarget(
+            self,
+            action: #selector(logOut),
+            for: .touchUpInside
+        )
         button.setImage(
             .logoutButton,
             for: .normal
@@ -199,6 +204,14 @@ final class HomeViewController: UIViewController {
     // MARK: - Configurations
     private func configureGpa() {
         scoreSection.configure(gpa: viewModel.gpa)
+    }
+    
+    // MARK: - Logout
+    @objc private func logOut() {
+        let vm = LoginViewModel()
+        vm.logOutTapped()
+        let vc = LoginViewController(viewModel: vm)
+        navigationController?.pushViewController(vc, animated: false)
     }
 }
 
