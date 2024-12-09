@@ -19,9 +19,9 @@ final class HomeViewController: UIViewController {
         return stackView
     }()
     
-    private let greetingLabel: UILabel = {
+    private lazy var greetingLabel: UILabel = {
         let label = UILabel()
-        label.text = Constants.Texts.greeting
+        label.text = viewModel.userName
         label.textColor = CustomColors.yellowPrimary
         label.font = .systemFont(
             ofSize: FontSizes.med,
@@ -30,7 +30,13 @@ final class HomeViewController: UIViewController {
         return label
     }()
     
-    private let scoreSection = ColorfulBackgroundView()
+    private lazy var scoreSection: ColorfulBackgroundView = {
+        let scoreSection = ColorfulBackgroundView()
+        scoreSection.viewDetailsAction = { [weak self] in
+            self?.detailsTapped()
+        }
+        return scoreSection
+    }()
     
     private let labelForTable: UILabel = {
         let label = UILabel()
@@ -64,6 +70,11 @@ final class HomeViewController: UIViewController {
     
     private lazy var logoutButton: SmallYellowButton = {
         let button = SmallYellowButton()
+        button.addTarget(
+            self,
+            action: #selector(logOut),
+            for: .touchUpInside
+        )
         button.setImage(
             .logoutButton,
             for: .normal
@@ -86,8 +97,14 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.viewDidLoad()
         setupUI()
         configureGpa()
+    }
+    
+    override func viewWillAppear(_ animated: Bool ) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
     }
     
     // MARK: - UI Setup
@@ -200,6 +217,20 @@ final class HomeViewController: UIViewController {
     private func configureGpa() {
         scoreSection.configure(gpa: viewModel.gpa)
     }
+    
+    // MARK: - Logout
+    @objc private func logOut() {
+        let vm = LoginViewModel()
+        vm.logOutTapped()
+        let vc = LoginViewController(viewModel: vm)
+        navigationController?.pushViewController(vc, animated: false)
+    }
+    
+    private func detailsTapped() {
+        let vm = PointsDetailsViewModel()
+        let vc = PointsDetailsViewController(viewModel: vm)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -209,7 +240,7 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        Constants.TableView.numberOfSections
+        viewModel.mockSubjects.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -218,10 +249,12 @@ extension HomeViewController: UITableViewDataSource {
         ) as? SubjectCell else {
             return UITableViewCell()
         }
-        let image = viewModel.subjectImages[indexPath.section]
+        let subject = viewModel.mockSubjects[indexPath.section]
+        let image = subject.icon
         cell.configureCell(
-            image: (UIImage(named: image) ?? UIImage(named: "geographyImage"))!,
-            title: "გეოგრაფია"
+            image: image,
+            title: subject.subjectTitle,
+            buttonImage: "nextButtonImage"
         )
         
         return cell
@@ -239,4 +272,10 @@ extension HomeViewController: UITableViewDelegate {
         UIView()
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let subject = viewModel.mockSubjects[indexPath.section]
+        let quizViewModel = QuizViewModel(subject: subject)
+        let vc = QuizViewController(viewModel: quizViewModel)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }

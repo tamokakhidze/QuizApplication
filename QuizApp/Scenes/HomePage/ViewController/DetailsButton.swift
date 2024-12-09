@@ -15,6 +15,7 @@ final class DetailsButton: UIButton {
         let stackView = UIStackView()
         stackView.spacing = Constants.Sizing.stackViewSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.isUserInteractionEnabled = false
         return stackView
     }()
     
@@ -23,6 +24,7 @@ final class DetailsButton: UIButton {
         label.text = Constants.Texts.title
         label.font = .systemFont(ofSize: FontSizes.xs)
         label.textColor = CustomColors.neutralWhite
+        label.isUserInteractionEnabled = false
         return label
     }()
     
@@ -30,6 +32,7 @@ final class DetailsButton: UIButton {
         let imageView = UIImageView()
         imageView.image = .detailsChevron
             .withRenderingMode(.alwaysOriginal)
+        imageView.isUserInteractionEnabled = false
         return imageView
     }()
     
