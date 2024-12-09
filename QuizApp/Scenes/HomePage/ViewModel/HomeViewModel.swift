@@ -10,9 +10,10 @@ import Foundation
 final class HomeViewModel {
     
     // MARK: - Properties
-    private var gpaScore: Float = 3.45 //Will be calculated later
+    private var gpaScore: Float?
     
     var gpa: String {
+        guard let gpaScore = gpaScore else { return "0"}
         if gpaScore.truncatingRemainder(dividingBy: 1) == 0 {
             return String(format: "%.1f", gpaScore)
         } else {
@@ -201,4 +202,27 @@ final class HomeViewModel {
         )
     ]
     
+    let loginManager = LoginManager.shared
+    
+    var points: [String: Int]?
+    
+    var pointValues: [Int] {
+        return points?.values.map { $0 } ?? []
+    }
+    
+    func viewDidLoad() {
+        points = loginManager.getCurrentUserPoints()
+        print("Points retrieved: \(points ?? [:])")
+        calculateGpa()
+    }
+    
+    func calculateGpa() {
+        guard let points = points, !points.isEmpty else {
+            gpaScore = nil
+            print("Points are nil or empty.")
+            return
+        }
+        gpaScore = Float(pointValues.reduce(0, +)) / Float(points.count)
+        print("Calculated GPA: \(gpaScore ?? 0)")
+    }
 }
