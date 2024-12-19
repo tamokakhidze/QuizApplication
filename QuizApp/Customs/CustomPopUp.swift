@@ -37,6 +37,7 @@ final class CustomPopUp: UIView {
         )
         label.textColor = Constants.Colors.neutralWhite
         label.textAlignment = .center
+        label.numberOfLines = .zero
         return label
     }()
     
